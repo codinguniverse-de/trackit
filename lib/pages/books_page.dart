@@ -17,6 +17,8 @@ class BooksPage extends StatefulWidget {
 }
 
 class _BooksPage extends State<BooksPage> {
+  bool _searchMode = false;
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +30,7 @@ class _BooksPage extends State<BooksPage> {
       builder: (context, widget, model) {
         return Scaffold(
           drawer: SideDrawer(),
-          appBar: AppBar(
-            title: Text(Localization.of(context).appTitle),
-          ),
+          appBar: buildAppBar(context, model),
           body: buildListView(model),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
@@ -42,17 +42,47 @@ class _BooksPage extends State<BooksPage> {
     );
   }
 
+  AppBar buildAppBar(BuildContext context, BooksModel model) {
+    var icon = Icon(_searchMode ? Icons.clear : Icons.search);
+    var title = _searchMode
+        ? TextField(
+            cursorColor: Colors.white,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+            onChanged: (value) {
+              model.search(value);
+            },
+          )
+        : Text(Localization.of(context).appTitle);
+    return AppBar(
+      title: title,
+      actions: <Widget>[
+        IconButton(
+          icon: icon,
+          onPressed: () {
+            model.search('');
+            setState(() {
+              _searchMode = !_searchMode;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
   Widget buildListView(BooksModel model) {
-    return model.books.length > 0
+    return model.filteredBooks.length > 0
         ? ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return BookListItem(
-                book: model.books[index],
+                book: model.filteredBooks[index],
                 onTap: () => Navigator.of(context)
-                    .pushNamed('/book/${model.books[index].id}'),
+                    .pushNamed('/book/${model.filteredBooks[index].id}'),
               );
             },
-            itemCount: model.books.length,
+            itemCount: model.filteredBooks.length,
           )
         : Center(
             child: Text(Localization.of(context).addBooks),

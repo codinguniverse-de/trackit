@@ -4,6 +4,7 @@ import 'package:track_it/data/book.dart';
 class BooksModel extends Model {
   List<Book> _books = [];
   BookProvider _provider;
+  String _searchTerm = '';
 
   BooksModel(){
     _provider = BookProvider();
@@ -11,6 +12,13 @@ class BooksModel extends Model {
 
   List<Book> get books {
     return _books;
+  }
+
+  List<Book> get filteredBooks {
+    if (_searchTerm.isEmpty)
+      return _books;
+    return _books.where((book) => book.title.contains(_searchTerm)
+    || book.authors.any((author) => author.contains(_searchTerm))).toList();
   }
 
   void fetchBooks() async{
@@ -42,4 +50,10 @@ class BooksModel extends Model {
     }
     notifyListeners();
   }
+
+  void search(String value) {
+    _searchTerm = value;
+    notifyListeners();
+  }
+
 }
