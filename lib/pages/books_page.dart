@@ -78,8 +78,11 @@ class _BooksPage extends State<BooksPage> {
             itemBuilder: (BuildContext context, int index) {
               return BookListItem(
                 book: model.filteredBooks[index],
-                onTap: () => Navigator.of(context)
-                    .pushNamed('/book/${model.filteredBooks[index].id}'),
+                onTap: () {
+                  model.selectBook(model.filteredBooks[index].id);
+                  Navigator.of(context)
+                    .pushNamed('/book/${model.filteredBooks[index].id}');
+                },
               );
             },
             itemCount: model.filteredBooks.length,

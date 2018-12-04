@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:track_it/data/category.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:track_it/data/read_entry.dart';
 
 final String tableBook = 'books';
 final String columnId = 'id';
@@ -64,15 +65,14 @@ class Book {
   }
 
   int _parseRating(int rating) {
-    if (rating == null){
+    if (rating == null) {
       rating = 0;
       return rating;
     }
 
     if (rating < 1)
       rating = 1;
-    else if(rating > 5)
-      rating = 5;
+    else if (rating > 5) rating = 5;
     return rating;
   }
 }
@@ -83,6 +83,13 @@ class BookProvider {
   Future<Null> open(String path) async {
     db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
+      await db.execute('''
+        create table $tableReadEntry (
+          $columnId integer primary key autoincrement,
+          $columnBookId integer,
+          $columnPagesRead integer,
+          $columnDate integer)
+      ''');
       await db.execute('''
         create table $tableBook (
           $columnId integer primary key autoincrement,
@@ -103,9 +110,26 @@ class BookProvider {
     return book;
   }
 
+  Future<ReadEntry> addReadEntry(ReadEntry entry) async {
+    entry.id = await db.insert(tableReadEntry, entry.toMap());
+    return entry;
+  }
+
+  Future<int> getSumForBook(int bookId) async {
+    List<Map> maps = await db.query(
+      tableReadEntry,
+      where: '$columnBookId = ?',
+      whereArgs: [bookId],
+    );
+    List<ReadEntry> entries = maps.map((m) => ReadEntry.fromMap(m)).toList();
+    int pages = 0;
+    entries.forEach((e) => pages += e.pagesRead);
+    return pages;
+  }
+
   Future<List<Book>> getAll() async {
     List<Map> maps = await db.query(tableBook);
-    if(maps != null) {
+    if (maps != null) {
       List<Book> books = [];
       maps.forEach((map) {
         books.add(Book.fromMap(map));
@@ -116,9 +140,8 @@ class BookProvider {
   }
 
   Future<Book> getBook(int id) async {
-    List<Map> maps = await db.query(tableBook,
-        where: '$columnId = ?',
-        whereArgs: [id]);
+    List<Map> maps =
+        await db.query(tableBook, where: '$columnId = ?', whereArgs: [id]);
 
     if (maps.length > 0) {
       return new Book.fromMap(maps.first);

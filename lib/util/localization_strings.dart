@@ -14,7 +14,8 @@ const String AppTitle = 'app_title',
     Delete = 'delete',
     PublishedBy = 'published_by',
     BooksDrawerItem = 'books_drawer_item',
-    AddBooks = 'add_books';
+    AddBooks = 'add_books',
+    Pages = 'pages';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -34,6 +35,7 @@ final de = {
   Delete: 'Löschen',
   BooksDrawerItem: 'Alle Bücher',
   AddBooks: 'Füge deine Bücher hinzu',
+  Pages: 'Seiten',
 };
 
 final en = {
@@ -54,4 +56,5 @@ final en = {
   Delete: 'Delete',
   BooksDrawerItem: 'All books',
   AddBooks: 'Add your books',
+  Pages: 'pages'
 };

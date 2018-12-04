@@ -20,71 +20,98 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
-
   double _selectedRating;
 
   @override
   void initState() {
     super.initState();
-    _selectedRating = widget.book.rating == null ? 0.0 : widget.book.rating.toDouble();
+
+    _selectedRating =
+        widget.book.rating == null ? 0.0 : widget.book.rating.toDouble();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<BooksModel>(
-      builder: (context, _, model) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.book.title),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/edit/${widget.book.id}');
-                },
-              ),
-              PopupMenuButton<Choice>(
-                onSelected: (Choice choice) {
-                  switch(choice) {
-                    case Choice.delete:
-                      model.deleteBook(widget.book.id);
-                      Navigator.of(context).pop();
-                      break;
-                    default:
-                  }
-                },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
-                  PopupMenuItem<Choice>(
-                      child: Text(Localization.of(context).delete),
-                      value: Choice.delete
-                  ),
-                ],
-              )
-            ],
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildImage(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _buildTitle(),
-                      PriceTag(value: widget.book.price),
-                    ],
-                  ),
-                  _buildAuthor(),
-                  _buildPublisher(context),
-                  _buildRatingBar(model),
-                ],
-              ),
+    return ScopedModelDescendant<BooksModel>(builder: (context, _, model) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.book.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacementNamed('/edit/${widget.book.id}');
+              },
+            ),
+            PopupMenuButton<Choice>(
+              onSelected: (Choice choice) {
+                switch (choice) {
+                  case Choice.delete:
+                    model.deleteBook(widget.book.id);
+                    Navigator.of(context).pop();
+                    break;
+                  default:
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
+                    PopupMenuItem<Choice>(
+                        child: Text(Localization.of(context).delete),
+                        value: Choice.delete),
+                  ],
+            )
+          ],
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _buildImage(),
+                buildProgressIndicator(model),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _buildTitle(),
+                    PriceTag(value: widget.book.price),
+                  ],
+                ),
+                _buildAuthor(),
+                _buildPublisher(context),
+                _buildRatingBar(model),
+              ],
             ),
           ),
-        );
-      }
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              model.addReadEntry(widget.book.id, 10);
+            }),
+      );
+    });
+  }
+
+  Row buildProgressIndicator(BooksModel model) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: LinearProgressIndicator(
+            value: model.currentProgress,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            model.currentPages.toString() +
+                ' / ' +
+                widget.book.numPages.toString() +
+                ' ' +
+                Localization.of(context).pages,
+          ),
+        ),
+      ],
     );
   }
 
@@ -131,7 +158,7 @@ class _BookPageState extends State<BookPage> {
       return SizedBox();
     else
       return Padding(
-        padding: const EdgeInsets.only(top:8.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Text(
           Localization.of(context).publishedBy + widget.book.publisher,
           style: TextStyle(fontSize: 20.0, color: Colors.black),
