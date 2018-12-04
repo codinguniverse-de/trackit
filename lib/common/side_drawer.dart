@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:track_it/util/localization.dart';
 
@@ -14,7 +13,20 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.book),
             title: Text(Localization.of(context).booksDrawerItem),
-            onTap:() => Navigator.of(context).pushReplacementNamed('/'),
+            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+          ),
+          ListTile(
+            leading: Icon(Icons.show_chart),
+            title: Text(Localization.of(context).statistics),
+            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+          ),
+          SizedBox(
+            height: 40.0,
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text(Localization.of(context).settings),
+            onTap: () => Navigator.of(context).pushReplacementNamed('/settings'),
           )
         ],
       ),

@@ -15,7 +15,11 @@ const String AppTitle = 'app_title',
     PublishedBy = 'published_by',
     BooksDrawerItem = 'books_drawer_item',
     AddBooks = 'add_books',
-    Pages = 'pages';
+    Pages = 'pages',
+    Settings = 'settings',
+    Statistics = 'statistics',
+    Import = 'import',
+    Export = 'export';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -36,6 +40,10 @@ final de = {
   BooksDrawerItem: 'Alle Bücher',
   AddBooks: 'Füge deine Bücher hinzu',
   Pages: 'Seiten',
+  Settings: 'Einstellungen',
+  Statistics: 'Statistiken',
+  Import: 'Daten importieren',
+  Export: 'Daten exportieren',
 };
 
 final en = {
@@ -56,5 +64,9 @@ final en = {
   Delete: 'Delete',
   BooksDrawerItem: 'All books',
   AddBooks: 'Add your books',
-  Pages: 'pages'
+  Pages: 'pages',
+  Settings: 'Settings',
+  Statistics: 'Statistics',
+  Import: 'Import data',
+  Export: 'Export data',
 };
