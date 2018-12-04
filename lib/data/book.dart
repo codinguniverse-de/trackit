@@ -11,6 +11,8 @@ final String columnPrice = 'price';
 final String columnNumPages = 'numPages';
 final String columnPublisher = 'publisher';
 final String columnImageUrl = 'imageUrl';
+final String columnRating = 'rating';
+final String columnFinished = 'finished';
 
 class Book {
   int id;
@@ -21,6 +23,8 @@ class Book {
   int numPages;
   Category category;
   String imageUrl;
+  int rating;
+  bool finished;
 
   Book(
       {@required this.id,
@@ -41,6 +45,8 @@ class Book {
       columnPrice: price,
       columnNumPages: numPages,
       columnImageUrl: imageUrl,
+      columnRating: _parseRating(rating),
+      columnFinished: finished ? 1 : 0,
     };
     return map;
   }
@@ -53,6 +59,21 @@ class Book {
     price = map[columnPrice];
     numPages = map[columnNumPages];
     imageUrl = map[columnImageUrl];
+    rating = map[columnRating];
+    finished = map[columnFinished] == 1;
+  }
+
+  int _parseRating(int rating) {
+    if (rating == null){
+      rating = 0;
+      return rating;
+    }
+
+    if (rating < 1)
+      rating = 1;
+    else if(rating > 5)
+      rating = 5;
+    return rating;
   }
 }
 
@@ -70,7 +91,9 @@ class BookProvider {
           $columnPrice real not null,
           $columnNumPages integer not null,
           $columnPublisher text,
-          $columnImageUrl text)
+          $columnImageUrl text,
+          $columnRating int,
+          $columnFinished int)
       ''');
     });
   }
@@ -94,15 +117,6 @@ class BookProvider {
 
   Future<Book> getBook(int id) async {
     List<Map> maps = await db.query(tableBook,
-        columns: [
-          columnId,
-          columnTitle,
-          columnAuthor,
-          columnPrice,
-          columnNumPages,
-          columnPublisher,
-          columnImageUrl,
-        ],
         where: '$columnId = ?',
         whereArgs: [id]);
 

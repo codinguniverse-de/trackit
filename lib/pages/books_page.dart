@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/book_list_item.dart';
+import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
 
@@ -26,18 +27,11 @@ class _BooksPage extends State<BooksPage> {
     return ScopedModelDescendant<BooksModel>(
       builder: (context, widget, model) {
         return Scaffold(
+          drawer: SideDrawer(),
           appBar: AppBar(
             title: Text(Localization.of(context).appTitle),
           ),
-          body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return BookListItem(
-                book: model.books[index],
-                onTap: () => Navigator.of(context).pushNamed('/book/${model.books[index].id}'),
-              );
-            },
-            itemCount: model.books.length,
-          ),
+          body: buildListView(model),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () => _onAddBook(context, model),
@@ -46,6 +40,23 @@ class _BooksPage extends State<BooksPage> {
         );
       },
     );
+  }
+
+  Widget buildListView(BooksModel model) {
+    return model.books.length > 0
+        ? ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return BookListItem(
+                book: model.books[index],
+                onTap: () => Navigator.of(context)
+                    .pushNamed('/book/${model.books[index].id}'),
+              );
+            },
+            itemCount: model.books.length,
+          )
+        : Center(
+            child: Text(Localization.of(context).addBooks),
+          );
   }
 
   void _onAddBook(BuildContext context, BooksModel model) {

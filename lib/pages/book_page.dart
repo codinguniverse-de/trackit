@@ -4,33 +4,50 @@ import 'package:track_it/common/price_tag.dart';
 import 'package:track_it/data/book.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 enum Choice { edit, delete }
 
-class BookPage extends StatelessWidget {
+class BookPage extends StatefulWidget {
   final Book book;
 
   BookPage(this.book);
 
   @override
+  State<StatefulWidget> createState() {
+    return _BookPageState();
+  }
+}
+
+class _BookPageState extends State<BookPage> {
+
+  double _selectedRating;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedRating = widget.book.rating == null ? 0.0 : widget.book.rating.toDouble();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<BooksModel>(
-      builder: (context, widget, model) {
+      builder: (context, _, model) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(book.title),
+            title: Text(widget.book.title),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/edit/${book.id}');
+                  Navigator.of(context).pushNamed('/edit/${widget.book.id}');
                 },
               ),
               PopupMenuButton<Choice>(
                 onSelected: (Choice choice) {
                   switch(choice) {
                     case Choice.delete:
-                      model.deleteBook(book.id);
+                      model.deleteBook(widget.book.id);
                       Navigator.of(context).pop();
                       break;
                     default:
@@ -56,11 +73,12 @@ class BookPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       _buildTitle(),
-                      PriceTag(value: book.price),
+                      PriceTag(value: widget.book.price),
                     ],
                   ),
                   _buildAuthor(),
                   _buildPublisher(context),
+                  _buildRatingBar(model),
                 ],
               ),
             ),
@@ -71,7 +89,7 @@ class BookPage extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    if (book.imageUrl == null || book.imageUrl.isEmpty) {
+    if (widget.book.imageUrl == null || widget.book.imageUrl.isEmpty) {
       return Image.asset(
         'assets/book_icon.png',
         fit: BoxFit.fitWidth,
@@ -83,7 +101,7 @@ class BookPage extends StatelessWidget {
         width: 160.0,
         height: 1600.0,
         placeholder: AssetImage('assets/book_icon.png'),
-        image: NetworkImage(book.imageUrl),
+        image: NetworkImage(widget.book.imageUrl),
       );
     }
   }
@@ -92,7 +110,7 @@ class BookPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
-        book.title,
+        widget.book.title,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
@@ -103,21 +121,41 @@ class BookPage extends StatelessWidget {
 
   Widget _buildAuthor() {
     return Text(
-      book.authors.join(','),
+      widget.book.authors.join(','),
       style: TextStyle(fontSize: 20.0, color: Colors.black54),
     );
   }
 
   Widget _buildPublisher(BuildContext context) {
-    if (book.publisher == null || book.publisher.isEmpty)
+    if (widget.book.publisher == null || widget.book.publisher.isEmpty)
       return SizedBox();
     else
       return Padding(
         padding: const EdgeInsets.only(top:8.0),
         child: Text(
-          Localization.of(context).publishedBy + book.publisher,
+          Localization.of(context).publishedBy + widget.book.publisher,
           style: TextStyle(fontSize: 20.0, color: Colors.black),
         ),
       );
+  }
+
+  Widget _buildRatingBar(BooksModel model) {
+    return Padding(
+      padding: EdgeInsets.only(top: 24.0),
+      child: SmoothStarRating(
+        allowHalfRating: false,
+        starCount: 5,
+        size: 40.0,
+        onRatingChanged: (value) {
+          setState(() {
+            _selectedRating = value;
+            var newBook = widget.book;
+            newBook.rating = value.toInt();
+            model.updateBook(newBook);
+          });
+        },
+        rating: _selectedRating,
+      ),
+    );
   }
 }

@@ -12,7 +12,9 @@ const String AppTitle = 'app_title',
     PriceRequired = 'price_required',
     PagesRequired = 'pages_required',
     Delete = 'delete',
-    PublishedBy = 'published_by';
+    PublishedBy = 'published_by',
+    BooksDrawerItem = 'books_drawer_item',
+    AddBooks = 'add_books';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -30,6 +32,8 @@ final de = {
   PagesRequired: 'Seitenanzahl ist ein Pflichtfeld',
   PublishedBy: 'Herausgegeben von ',
   Delete: 'Löschen',
+  BooksDrawerItem: 'Alle Bücher',
+  AddBooks: 'Füge deine Bücher hinzu',
 };
 
 final en = {
@@ -48,4 +52,6 @@ final en = {
   PagesRequired: 'Number of pages is required',
   PublishedBy: 'Published by ',
   Delete: 'Delete',
+  BooksDrawerItem: 'All books',
+  AddBooks: 'Add your books',
 };
