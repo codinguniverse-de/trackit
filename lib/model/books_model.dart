@@ -5,6 +5,7 @@ import 'package:track_it/data/read_entry.dart';
 class BooksModel extends Model {
   List<Book> _books = [];
   BookProvider _provider;
+  bool _isLoading = false;
   String _searchTerm = '';
   int _pagesRead = 0;
   int _selectedBookId = -1;
@@ -38,14 +39,18 @@ class BooksModel extends Model {
         .toList();
   }
 
+  get isLoading => _isLoading;
+
   void selectBook(int bookId) async {
     _selectedBookId = bookId;
     _pagesRead = await getPagesReadForBook(bookId) ?? 0;
   }
 
   void fetchBooks() async {
+    _isLoading = true;
     await _provider.open('books.db');
     var books = await _provider.getAll();
+    _isLoading = false;
     if (books != null) {
       _books = await _provider.getAll();
       notifyListeners();
