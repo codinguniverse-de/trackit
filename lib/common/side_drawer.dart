@@ -18,7 +18,7 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.show_chart),
             title: Text(Localization.of(context).statistics),
-            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+            onTap: () => Navigator.of(context).pushReplacementNamed('/statistics'),
           ),
           SizedBox(
             height: 40.0,
