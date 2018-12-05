@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
-import 'package:flutter_document_picker/flutter_document_picker.dart';
+
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -12,33 +14,55 @@ class SettingsPage extends StatelessWidget {
         }),
         title: Text(Localization.of(context).settings),
       ),
-      body: Column(
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.input),
-            title: Text(Localization.of(context).import),
-            onTap: _importData,
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.list),
-            title: Text(Localization.of(context).export),
-            onTap: () {},
-          ),
-          Divider(),
-        ],
+      body:
+      ScopedModelDescendant<BooksModel>(
+        builder: (context, widget, model) {
+          return Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.input),
+                title: Text(Localization.of(context).import),
+                onTap: _importData,
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.list),
+                title: Text(Localization.of(context).export),
+                onTap: () => _exportData(context, model),
+              ),
+              Divider(),
+            ],
+          );
+        }
       ),
     );
   }
 
   void _importData() async {
-    var params = FlutterDocumentPickerParams(
-      allowedFileExtensions: ['tidb'],
-      allowedMimeType: 'application/json'
-    );
-    var path = await FlutterDocumentPicker.openDocument(
-      params: params
-    );
-    print(path);
+//    var params = FlutterDocumentPickerParams(
+//      allowedFileExtensions: ['tidb'],
+//      allowedMimeType: 'application/json'
+//    );
+//    var path = await FlutterDocumentPicker.openDocument(
+//      params: params
+//    );
+//    if (path == null)
+//      return;
+
+  }
+
+  void _exportData(BuildContext context, BooksModel model) async {
+//    var path = await getApplicationDocumentsDirectory();
+//    if (path == null)
+//      return;
+//    var file = File(path);
+//    var allEntries = await model.getAllEntries();
+//    Map<String, dynamic> data = {
+//      'books': model.books,
+//      'entries': allEntries,
+//    };
+//    await file.writeAsString(json.encode(data));
+//
+//    Scaffold.of(context).showSnackBar(SnackBar(content: Text(Localization.of(context).exportSuccess)));
   }
 }

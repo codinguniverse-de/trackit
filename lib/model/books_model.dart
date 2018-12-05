@@ -40,7 +40,7 @@ class BooksModel extends Model {
 
   void selectBook(int bookId) async {
     _selectedBookId = bookId;
-    _pagesRead = await getPagesReadForBook(bookId);
+    _pagesRead = await getPagesReadForBook(bookId) ?? 0;
   }
 
   void fetchBooks() async {
@@ -91,5 +91,9 @@ class BooksModel extends Model {
     await _provider.addReadEntry(entry);
     _pagesRead = await getPagesReadForBook(bookId);
     notifyListeners();
+  }
+
+  Future<List<ReadEntry>> getAllEntries() async {
+    return await _provider.getAllEntries();
   }
 }

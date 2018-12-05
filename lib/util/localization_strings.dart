@@ -19,7 +19,9 @@ const String AppTitle = 'app_title',
     Settings = 'settings',
     Statistics = 'statistics',
     Import = 'import',
-    Export = 'export';
+    Export = 'export',
+    ExportSuccess = 'export_success',
+    EditProgress = 'edit_progress';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -44,6 +46,8 @@ final de = {
   Statistics: 'Statistiken',
   Import: 'Daten importieren',
   Export: 'Daten exportieren',
+  ExportSuccess: 'Daten wurden exportiert',
+  EditProgress: 'Fortschritt anpassen',
 };
 
 final en = {
@@ -69,4 +73,6 @@ final en = {
   Statistics: 'Statistics',
   Import: 'Import data',
   Export: 'Export data',
+  ExportSuccess: 'Data exported successfully',
+  EditProgress: 'Edit progress'
 };

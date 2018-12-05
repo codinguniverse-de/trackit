@@ -12,6 +12,8 @@ class Localization {
 
 
 
+
+
   static Localization of(BuildContext context) {
     return Localizations.of<Localization>(context, Localization);
   }
@@ -23,6 +25,8 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get editProgress => _getValue(EditProgress);
+  String get exportSuccess => _getValue(ExportSuccess);
   String get import => _getValue(Import);
   String get export => _getValue(Export);
   String get statistics => _getValue(Statistics);

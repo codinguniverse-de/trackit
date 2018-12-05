@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/price_tag.dart';
+import 'package:track_it/common/slider_input.dart';
 import 'package:track_it/data/book.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
@@ -21,6 +22,7 @@ class BookPage extends StatefulWidget {
 
 class _BookPageState extends State<BookPage> {
   double _selectedRating;
+  int _selectedPages;
 
   @override
   void initState() {
@@ -85,10 +87,9 @@ class _BookPageState extends State<BookPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              model.addReadEntry(widget.book.id, 10);
-            }),
+          child: Icon(Icons.add),
+          onPressed: () => onAddReadEntry(model),
+        ),
       );
     });
   }
@@ -184,5 +185,46 @@ class _BookPageState extends State<BookPage> {
         rating: _selectedRating,
       ),
     );
+  }
+
+  void onAddReadEntry(BooksModel model) {
+    _selectedPages = model.currentPages;
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  Localization.of(context).editProgress,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                SliderInput(
+                  maxValue: widget.book.numPages,
+                  initialValue: model.currentPages,
+                  onChange: (value) {
+                    setState(() {
+                      _selectedPages = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        }).then((_) {
+      var delta = _selectedPages - model.currentPages;
+      if (delta > 0) {
+        model.addReadEntry(widget.book.id, delta);
+      }
+    });
   }
 }

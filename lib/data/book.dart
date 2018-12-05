@@ -167,4 +167,9 @@ class BookProvider {
   }
 
   Future close() async => db.close();
+
+  Future<List<ReadEntry>> getAllEntries() async {
+    List<Map> maps = await db.query(tableReadEntry);
+    return maps.map((m) => ReadEntry.fromMap(m)).toList();
+  }
 }
