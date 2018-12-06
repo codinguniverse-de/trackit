@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           '/': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
           '/settings': (BuildContext context) => SettingsPage(),
-          '/statistics': (BuildContext context) => StatisticsPage()
+          '/statistics': (BuildContext context) => StatisticsPage(model)
         },
         onGenerateRoute: (RouteSettings settings) {
           final List<String> pathElements = settings.name.split('/');

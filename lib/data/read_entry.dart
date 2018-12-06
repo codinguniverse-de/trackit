@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 final String tableReadEntry = 'readEntries';
-final String columnId = 'id';
+final String _columnId = 'id';
 final String columnDate = 'dateTime';
 final String columnPagesRead = 'pagesRead';
 final String columnBookId = 'bookId';
@@ -21,7 +21,7 @@ class ReadEntry {
 
   Map<String, dynamic> toMap() {
     var map = {
-      columnId: id,
+      _columnId: id,
       columnDate: dateTime.millisecondsSinceEpoch,
       columnPagesRead: pagesRead,
       columnBookId: bookId
@@ -30,7 +30,7 @@ class ReadEntry {
   }
 
   ReadEntry.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
+    id = map[_columnId];
     dateTime = DateTime.fromMillisecondsSinceEpoch(map[columnDate]);
     pagesRead = map[columnPagesRead];
     bookId = map[columnBookId];

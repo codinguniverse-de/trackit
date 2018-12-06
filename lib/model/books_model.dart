@@ -1,17 +1,19 @@
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/book.dart';
+import 'package:track_it/data/database_provider.dart';
 import 'package:track_it/data/read_entry.dart';
+import 'package:track_it/data/timeseries_pages.dart';
 
 class BooksModel extends Model {
   List<Book> _books = [];
-  BookProvider _provider;
+  DatabaseProvider _provider;
   bool _isLoading = false;
   String _searchTerm = '';
   int _pagesRead = 0;
   int _selectedBookId = -1;
 
   BooksModel() {
-    _provider = BookProvider();
+    _provider = DatabaseProvider();
   }
 
   List<Book> get books {
@@ -100,5 +102,9 @@ class BooksModel extends Model {
 
   Future<List<ReadEntry>> getAllEntries() async {
     return await _provider.getAllEntries();
+  }
+
+  Future<List<TimeSeriesPages>> getTimeSeriesPages(int days) async {
+    return await _provider.getTimeSeriesPages(days);
   }
 }
