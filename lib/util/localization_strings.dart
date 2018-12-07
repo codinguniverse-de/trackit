@@ -22,7 +22,8 @@ const String AppTitle = 'app_title',
     Export = 'export',
     ExportSuccess = 'export_success',
     EditProgress = 'edit_progress',
-    PagesPerDay = 'pages_per_day';
+    PagesPerDay = 'pages_per_day',
+    Days = 'days';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -50,6 +51,7 @@ final de = {
   ExportSuccess: 'Daten wurden exportiert',
   EditProgress: 'Fortschritt anpassen',
   PagesPerDay: 'Seiten pro tag',
+  Days: 'Tage',
 };
 
 final en = {
@@ -77,5 +79,6 @@ final en = {
   Export: 'Export data',
   ExportSuccess: 'Data exported successfully',
   EditProgress: 'Edit progress',
-  PagesPerDay: 'Pages per day'
+  PagesPerDay: 'Pages per day',
+  Days: 'days'
 };

@@ -136,13 +136,6 @@ class DatabaseProvider {
         timeSeriesPages.add(TimeSeriesPages(DateTime.fromMillisecondsSinceEpoch(currentMillis), 0));
       }
     }
-//    entriesPerDay.forEach((millis, listOfEntries) {
-//      int sum = 0;
-//      listOfEntries.forEach((e) {
-//        sum += e.pagesRead;
-//      });
-//      timeSeriesPages.add(TimeSeriesPages(DateTime.fromMillisecondsSinceEpoch(millis), sum));
-//    });
 
     return timeSeriesPages;
   }

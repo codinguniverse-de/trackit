@@ -20,6 +20,7 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get days => _getValue(Days);
   String get pagesPerDay => _getValue(PagesPerDay);
   String get editProgress => _getValue(EditProgress);
   String get exportSuccess => _getValue(ExportSuccess);

@@ -72,14 +72,15 @@ class _BookPageState extends State<BookPage> {
               children: <Widget>[
                 _buildImage(),
                 buildProgressIndicator(model),
+                    _buildTitle(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _buildTitle(),
+                    _buildAuthor(),
+                    SizedBox(width: 10.0,),
                     PriceTag(value: widget.book.price),
                   ],
                 ),
-                _buildAuthor(),
                 _buildPublisher(context),
                 _buildRatingBar(model),
               ],
@@ -135,14 +136,18 @@ class _BookPageState extends State<BookPage> {
   }
 
   Widget _buildTitle() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    double width = MediaQuery.of(context).size.width * 0.9;
+    return Container(
+      width: width,
+      padding: EdgeInsets.all(8.0),
       child: Text(
         widget.book.title,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
         ),
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

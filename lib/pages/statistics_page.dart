@@ -6,7 +6,6 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:track_it/data/timeseries_pages.dart';
 
 class StatisticsPage extends StatefulWidget {
-
   final BooksModel model;
 
   StatisticsPage(this.model);
@@ -24,9 +23,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
   @override
   initState() {
     super.initState();
-    fetchSeries(50);
+    fetchSeries();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +43,27 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      Localization.of(context).pagesPerDay,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                      ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            Localization.of(context).pagesPerDay,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        DropdownButton<int>(
+                          items: _buildDropDownItems(),
+                          onChanged: (value) {
+                            setState(() {
+                              _days = value;
+                            });
+                            fetchSeries();
+                          },
+                          value: _days,
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 300.0,
@@ -78,8 +92,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  void fetchSeries(int days) async {
-    var data = await widget.model.getTimeSeriesPages(days);
+  void fetchSeries() async {
+    var data = await widget.model.getTimeSeriesPages(_days);
     print(data[0].date);
     setState(() {
       _seriesList = [
@@ -92,5 +106,22 @@ class _StatisticsPageState extends State<StatisticsPage> {
         )
       ];
     });
+  }
+
+  List<DropdownMenuItem<int>> _buildDropDownItems() {
+    return [
+      DropdownMenuItem<int>(
+        child: Text('7' + ' ' + Localization.of(context).days),
+        value: 7,
+      ),
+      DropdownMenuItem<int>(
+        child: Text('30' + ' ' + Localization.of(context).days),
+        value: 30,
+      ),
+      DropdownMenuItem<int>(
+        child: Text('365' + ' ' + Localization.of(context).days),
+        value: 365,
+      ),
+    ];
   }
 }
