@@ -3,6 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/book.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
+import 'package:camera/camera.dart';
 
 class EditBookPage extends StatefulWidget {
   final Book editBook;
@@ -15,7 +16,10 @@ class EditBookPage extends StatefulWidget {
   }
 }
 
+List<CameraDescription> cameras;
+
 class _EditBookPageState extends State<EditBookPage> {
+  CameraController controller;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, dynamic> _formData = {
     'title': null,
@@ -24,6 +28,22 @@ class _EditBookPageState extends State<EditBookPage> {
     'price': 0.0,
     'numPages': 0,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    initCamera();
+  }
+
+  void initCamera() async {
+    cameras = await availableCameras();
+    controller = CameraController(cameras[0], ResolutionPreset.medium);
+    await controller.initialize();
+    if (!mounted)
+      return;
+    else
+      setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +75,7 @@ class _EditBookPageState extends State<EditBookPage> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
+              buildImageContainer(context),
               buildTitleText(context),
               SizedBox(
                 height: 5.0,
@@ -76,12 +97,18 @@ class _EditBookPageState extends State<EditBookPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.search),
+          onPressed: () {
+        Navigator.of(context).pushNamed('/searchBook');
+      }),
     );
   }
 
   TextFormField buildPagesText(BuildContext context) {
     return TextFormField(
-      initialValue: widget.editBook == null ? '' : widget.editBook.numPages.toString(),
+      initialValue:
+          widget.editBook == null ? '' : widget.editBook.numPages.toString(),
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPages,
       ),
@@ -103,7 +130,8 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildPriceText(BuildContext context) {
     return TextFormField(
-      initialValue: widget.editBook == null ? '' : widget.editBook.price.toString(),
+      initialValue:
+          widget.editBook == null ? '' : widget.editBook.price.toString(),
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPrice,
       ),
@@ -125,7 +153,8 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildPublisherText(BuildContext context) {
     return TextFormField(
-      initialValue: widget.editBook == null ? '' : widget.editBook.publisher ?? '',
+      initialValue:
+          widget.editBook == null ? '' : widget.editBook.publisher ?? '',
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPublisher,
       ),
@@ -201,5 +230,31 @@ class _EditBookPageState extends State<EditBookPage> {
       book.id = widget.editBook.id;
       model.updateBook(book);
     }
+  }
+
+  Widget buildImageContainer(BuildContext context) {
+    return Center(
+      child: Container(
+        height: 200.0,
+        width: 200.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100.0),
+          color: Colors.green,
+        ),
+        child: Center(
+          child: Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.camera_enhance),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/camera');
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
