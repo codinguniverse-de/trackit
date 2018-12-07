@@ -20,7 +20,7 @@ class _SearchBookPageState extends State<SearchBookPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Suche'),
+        title: Text(Localization.of(context).search),
       ),
       body: Column(
         children: <Widget>[
@@ -81,7 +81,7 @@ class _SearchBookPageState extends State<SearchBookPage> {
     if (_results == null) {
       return Container();
     }
-    if (_results.length == 0) return Center(child: Text('No Results'));
+    if (_results.length == 0) return Center(child: Text(Localization.of(context).noResults));
 
     return ListView.builder(
       itemBuilder: _buildItems,

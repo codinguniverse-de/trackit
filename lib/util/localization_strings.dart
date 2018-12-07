@@ -24,7 +24,9 @@ const String AppTitle = 'app_title',
     EditProgress = 'edit_progress',
     PagesPerDay = 'pages_per_day',
     Days = 'days',
-    FetchBooksFailed = 'fetch_books_failed';
+    FetchBooksFailed = 'fetch_books_failed',
+    NoResults = 'no_results',
+    Search = 'search';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -54,6 +56,8 @@ final de = {
   PagesPerDay: 'Seiten pro tag',
   Days: 'Tage',
   FetchBooksFailed: 'Fehler bei der Websuche',
+  NoResults: 'Keine Ergebnisse',
+  Search: 'Suche',
 };
 
 final en = {
@@ -84,4 +88,6 @@ final en = {
   PagesPerDay: 'Pages per day',
   Days: 'days',
   FetchBooksFailed: 'Error while fetching data',
+  NoResults: 'No Results',
+  Search: 'Search'
 };
