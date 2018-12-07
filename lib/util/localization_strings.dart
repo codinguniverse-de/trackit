@@ -26,7 +26,9 @@ const String AppTitle = 'app_title',
     Days = 'days',
     FetchBooksFailed = 'fetch_books_failed',
     NoResults = 'no_results',
-    Search = 'search';
+    Search = 'search',
+    GeneralData = 'general_data',
+    TotalPages = 'total_pages';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -58,6 +60,8 @@ final de = {
   FetchBooksFailed: 'Fehler bei der Websuche',
   NoResults: 'Keine Ergebnisse',
   Search: 'Suche',
+  GeneralData: 'Allgemeine Daten',
+  TotalPages: 'Seiten gesamt: '
 };
 
 final en = {
@@ -89,5 +93,7 @@ final en = {
   Days: 'days',
   FetchBooksFailed: 'Error while fetching data',
   NoResults: 'No Results',
-  Search: 'Search'
+  Search: 'Search',
+  GeneralData: 'General data',
+  TotalPages: 'Total pages: '
 };

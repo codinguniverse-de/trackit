@@ -107,4 +107,8 @@ class BooksModel extends Model {
   Future<List<TimeSeriesPages>> getTimeSeriesPages(int days) async {
     return await _provider.getTimeSeriesPages(days);
   }
+
+  Future<int> getTotalPages() async {
+    return await _provider.getTotalPages();
+  }
 }

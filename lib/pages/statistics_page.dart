@@ -19,11 +19,13 @@ class StatisticsPage extends StatefulWidget {
 class _StatisticsPageState extends State<StatisticsPage> {
   List<charts.Series<TimeSeriesPages, DateTime>> _seriesList = [];
   int _days = 30;
+  int _totalPages = 0;
 
   @override
   initState() {
     super.initState();
     fetchSeries();
+    fetchTotalPages();
   }
 
   @override
@@ -33,11 +35,25 @@ class _StatisticsPageState extends State<StatisticsPage> {
       appBar: AppBar(
         title: Text(Localization.of(context).statistics),
       ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            Card(
+                child: Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          Localization.of(context).generalData,
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(height: 10.0,),
+                        Text(Localization.of(context).totalPages + _totalPages.toString()),
+                      ],
+                    ))),
+            Card(
               child: Padding(
                 padding: EdgeInsets.all(12.0),
                 child: Column(
@@ -85,9 +101,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   ],
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -108,6 +124,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
     });
   }
 
+  void fetchTotalPages() async{
+    int pages = await widget.model.getTotalPages();
+    setState(() {
+      _totalPages = pages;
+    });
+  }
+
   List<DropdownMenuItem<int>> _buildDropDownItems() {
     return [
       DropdownMenuItem<int>(
@@ -124,4 +147,5 @@ class _StatisticsPageState extends State<StatisticsPage> {
       ),
     ];
   }
+
 }

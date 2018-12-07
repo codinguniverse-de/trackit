@@ -139,4 +139,14 @@ class DatabaseProvider {
 
     return timeSeriesPages;
   }
+
+  Future<int> getTotalPages() async {
+    var values = await db.query(tableReadEntry, columns: [columnPagesRead]);
+
+    int sum = 0;
+
+    values.map((m) => m[columnPagesRead]).forEach((pages) => sum += pages);
+
+    return sum;
+  }
 }
