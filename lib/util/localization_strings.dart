@@ -23,7 +23,8 @@ const String AppTitle = 'app_title',
     ExportSuccess = 'export_success',
     EditProgress = 'edit_progress',
     PagesPerDay = 'pages_per_day',
-    Days = 'days';
+    Days = 'days',
+    FetchBooksFailed = 'fetch_books_failed';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -52,6 +53,7 @@ final de = {
   EditProgress: 'Fortschritt anpassen',
   PagesPerDay: 'Seiten pro tag',
   Days: 'Tage',
+  FetchBooksFailed: 'Fehler bei der Websuche',
 };
 
 final en = {
@@ -80,5 +82,6 @@ final en = {
   ExportSuccess: 'Data exported successfully',
   EditProgress: 'Edit progress',
   PagesPerDay: 'Pages per day',
-  Days: 'days'
+  Days: 'days',
+  FetchBooksFailed: 'Error while fetching data',
 };

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:track_it/data/api/schemes/book_scheme.dart';
 import 'package:track_it/data/book.dart';
 import 'package:track_it/model/books_model.dart';
+import 'package:track_it/pages/search_book_page.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:camera/camera.dart';
 
@@ -21,6 +23,11 @@ List<CameraDescription> cameras;
 class _EditBookPageState extends State<EditBookPage> {
   CameraController controller;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _authorController = TextEditingController();
+  final TextEditingController _publisherController = TextEditingController();
+  final TextEditingController _pagesController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   Map<String, dynamic> _formData = {
     'title': null,
     'author': null,
@@ -32,6 +39,13 @@ class _EditBookPageState extends State<EditBookPage> {
   @override
   void initState() {
     super.initState();
+    if (widget.editBook != null) {
+      _titleController.text = widget.editBook.title;
+      _authorController.text = widget.editBook.authors[0];
+      _publisherController.text = widget.editBook.publisher;
+      _pagesController.text = widget.editBook.numPages.toString();
+      _priceController.text = widget.editBook.price.toString();
+    }
     initCamera();
   }
 
@@ -100,15 +114,25 @@ class _EditBookPageState extends State<EditBookPage> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.search),
           onPressed: () {
-        Navigator.of(context).pushNamed('/searchBook');
+        Navigator.of(context).push(MaterialPageRoute<BookScheme>(builder: (BuildContext context) {
+          return SearchBookPage();
+        })).then((book) {
+          if (book != null) {
+            setState(() {
+              _titleController.text = book.title;
+              _authorController.text = book.authors != null ? book.authors[0] : '';
+              _publisherController.text = book.publisher;
+              _pagesController.text = book.pageCount.toString();
+            });
+          }
+        });
       }),
     );
   }
 
   TextFormField buildPagesText(BuildContext context) {
     return TextFormField(
-      initialValue:
-          widget.editBook == null ? '' : widget.editBook.numPages.toString(),
+      controller: _pagesController,
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPages,
       ),
@@ -130,8 +154,7 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildPriceText(BuildContext context) {
     return TextFormField(
-      initialValue:
-          widget.editBook == null ? '' : widget.editBook.price.toString(),
+      controller: _priceController,
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPrice,
       ),
@@ -153,8 +176,7 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildPublisherText(BuildContext context) {
     return TextFormField(
-      initialValue:
-          widget.editBook == null ? '' : widget.editBook.publisher ?? '',
+      controller: _publisherController,
       decoration: InputDecoration(
         labelText: Localization.of(context).bookPublisher,
       ),
@@ -170,7 +192,7 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildAuthorText(BuildContext context) {
     return TextFormField(
-      initialValue: widget.editBook == null ? '' : widget.editBook.authors[0],
+      controller: _authorController,
       decoration: InputDecoration(
         labelText: Localization.of(context).bookAuthor,
       ),
@@ -191,7 +213,7 @@ class _EditBookPageState extends State<EditBookPage> {
 
   TextFormField buildTitleText(BuildContext context) {
     return TextFormField(
-      initialValue: widget.editBook == null ? '' : widget.editBook.title,
+      controller: _titleController,
       decoration: InputDecoration(
         labelText: Localization.of(context).bookTitle,
       ),

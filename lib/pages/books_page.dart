@@ -74,7 +74,7 @@ class _BooksPage extends State<BooksPage> {
 
   Widget buildListView(BooksModel model) {
     if (model.isLoading) {
-      return CircularProgressIndicator();
+      return Center(child: CircularProgressIndicator());
     }
     return model.filteredBooks.length > 0
         ? ListView.builder(

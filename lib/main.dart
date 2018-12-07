@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
           '/create': (BuildContext context) => EditBookPage(),
           '/settings': (BuildContext context) => SettingsPage(),
           '/statistics': (BuildContext context) => StatisticsPage(model),
-          '/searchBook': (BuildContext context) => SearchBookPage(),
           '/camera': (BuildContext context) => CameraPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
