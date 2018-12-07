@@ -1,8 +1,5 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:track_it/data/category.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:track_it/data/read_entry.dart';
 
 final String tableBook = 'books';
 final String columnId = 'id';
