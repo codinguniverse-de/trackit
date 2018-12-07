@@ -7,6 +7,7 @@ import 'package:track_it/pages/books_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:track_it/pages/camera_page.dart';
 import 'package:track_it/pages/edit_book_page.dart';
+import 'package:track_it/pages/search_book_page.dart';
 import 'package:track_it/pages/settings_page.dart';
 import 'package:track_it/pages/statistics_page.dart';
 import 'package:track_it/util/localization.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           '/create': (BuildContext context) => EditBookPage(),
           '/settings': (BuildContext context) => SettingsPage(),
           '/statistics': (BuildContext context) => StatisticsPage(),
+          '/searchBook': (BuildContext context) => SearchBookPage(),
           '/camera': (BuildContext context) => CameraPage(),
         },
         onGenerateRoute: (RouteSettings settings) {

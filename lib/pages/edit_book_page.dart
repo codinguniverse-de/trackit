@@ -97,6 +97,11 @@ class _EditBookPageState extends State<EditBookPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.search),
+          onPressed: () {
+        Navigator.of(context).pushNamed('/searchBook');
+      }),
     );
   }
 
