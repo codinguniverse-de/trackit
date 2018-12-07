@@ -5,6 +5,7 @@ import 'package:track_it/model/books_model.dart';
 import 'package:track_it/pages/book_page.dart';
 import 'package:track_it/pages/books_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:track_it/pages/camera_page.dart';
 import 'package:track_it/pages/edit_book_page.dart';
 import 'package:track_it/pages/settings_page.dart';
 import 'package:track_it/pages/statistics_page.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
           '/': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
           '/settings': (BuildContext context) => SettingsPage(),
-          '/statistics': (BuildContext context) => StatisticsPage()
+          '/statistics': (BuildContext context) => StatisticsPage(),
+          '/camera': (BuildContext context) => CameraPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final List<String> pathElements = settings.name.split('/');
