@@ -41,12 +41,33 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-
+        Navigator.pop(context);
       },
-      child: controller.value.isInitialized ? AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: CameraPreview(controller),
-      ) : Container(),
+      child: Stack(
+        children: <Widget>[
+          controller != null && controller.value.isInitialized ? AspectRatio(
+            aspectRatio: controller.value.aspectRatio,
+            child: CameraPreview(controller),
+          ) : Container(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      color: Theme.of(context).accentColor,
+                      child: Text('Take Picture'),
+                      onPressed: () { },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
