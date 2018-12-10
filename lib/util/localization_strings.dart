@@ -33,7 +33,10 @@ const String AppTitle = 'app_title',
     All = 'all',
     CurrentlyReading = 'currently_reading',
     ThisYear = 'this_year',
-    Finished = 'finished';
+    Finished = 'finished',
+    Gallery = 'gallery',
+    TakeImage = 'take_image',
+    RemoveImage = 'remove_image';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -72,6 +75,9 @@ final de = {
   CurrentlyReading: 'Am Lesen',
   Finished: 'Beendet',
   ThisYear: 'Dieses Jahr',
+  Gallery: 'Gallerie',
+  TakeImage: 'Foto aufnehmen',
+  RemoveImage: 'Bild entfernen',
 };
 
 final en = {
@@ -111,4 +117,7 @@ final en = {
   CurrentlyReading: 'Currently reading',
   Finished: 'Finished',
   ThisYear: 'This year',
+  Gallery: 'Gallery',
+  TakeImage: 'Take image',
+  RemoveImage: 'Remove image',
 };

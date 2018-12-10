@@ -10,6 +10,8 @@ class Localization {
   Localization(this.locale);
 
 
+
+
   static Localization of(BuildContext context) {
     return Localizations.of<Localization>(context, Localization);
   }
@@ -21,6 +23,9 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get removeImage => _getValue(RemoveImage);
+  String get gallery => _getValue(Gallery);
+  String get takeImage => _getValue(TakeImage);
   String get all => _getValue(All);
   String get currentlyReading => _getValue(CurrentlyReading);
   String get thisYear => _getValue(ThisYear);

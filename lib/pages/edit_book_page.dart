@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/api/schemes/book_scheme.dart';
@@ -5,7 +7,7 @@ import 'package:track_it/data/book.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/pages/search_book_page.dart';
 import 'package:track_it/util/localization.dart';
-import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditBookPage extends StatefulWidget {
   final Book editBook;
@@ -18,10 +20,7 @@ class EditBookPage extends StatefulWidget {
   }
 }
 
-List<CameraDescription> cameras;
-
 class _EditBookPageState extends State<EditBookPage> {
-  CameraController controller;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
@@ -35,6 +34,7 @@ class _EditBookPageState extends State<EditBookPage> {
     'price': 0.0,
     'numPages': 0,
   };
+  File _image;
 
   @override
   void initState() {
@@ -46,17 +46,6 @@ class _EditBookPageState extends State<EditBookPage> {
       _pagesController.text = widget.editBook.numPages.toString();
       _priceController.text = widget.editBook.price.toString();
     }
-    initCamera();
-  }
-
-  void initCamera() async {
-    cameras = await availableCameras();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
-    await controller.initialize();
-    if (!mounted)
-      return;
-    else
-      setState(() {});
   }
 
   @override
@@ -114,19 +103,21 @@ class _EditBookPageState extends State<EditBookPage> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.search),
           onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute<BookScheme>(builder: (BuildContext context) {
-          return SearchBookPage();
-        })).then((book) {
-          if (book != null) {
-            setState(() {
-              _titleController.text = book.title;
-              _authorController.text = book.authors != null ? book.authors[0] : '';
-              _publisherController.text = book.publisher;
-              _pagesController.text = book.pageCount.toString();
+            Navigator.of(context).push(
+                MaterialPageRoute<BookScheme>(builder: (BuildContext context) {
+              return SearchBookPage();
+            })).then((book) {
+              if (book != null) {
+                setState(() {
+                  _titleController.text = book.title;
+                  _authorController.text =
+                      book.authors != null ? book.authors[0] : '';
+                  _publisherController.text = book.publisher;
+                  _pagesController.text = book.pageCount.toString();
+                });
+              }
             });
-          }
-        });
-      }),
+          }),
     );
   }
 
@@ -262,6 +253,12 @@ class _EditBookPageState extends State<EditBookPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.0),
           color: Colors.green,
+          image: _image == null
+              ? null
+              : DecorationImage(
+                  image: FileImage(_image),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Center(
           child: Stack(
@@ -270,7 +267,53 @@ class _EditBookPageState extends State<EditBookPage> {
                 icon: Icon(Icons.camera_enhance),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/camera');
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(Icons.photo_album),
+                                title: Text(Localization.of(context).gallery),
+                                onTap: () async {
+                                  var file = await ImagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  setState(() {
+                                    _image = file;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.camera),
+                                title: Text(Localization.of(context).takeImage),
+                                onTap: () async {
+                                  var file = await ImagePicker.pickImage(
+                                      source: ImageSource.camera);
+                                  setState(() {
+                                    _image = file;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              _image == null ? SizedBox() :
+                                  ListTile(
+                                    leading: Icon(Icons.delete),
+                                    title: Text(Localization.of(context).removeImage),
+                                    onTap: () {
+                                      setState(() {
+                                        _image = null;
+                                        Navigator.of(context).pop();
+                                      });
+                                    },
+                                  )
+                            ],
+                          ),
+                        );
+                      });
                 },
               ),
             ],
