@@ -44,6 +44,9 @@ class _BooksPage extends State<BooksPage> {
 
   AppBar buildAppBar(BuildContext context, BooksModel model) {
     var icon = Icon(_searchMode ? Icons.clear : Icons.search);
+    var filterIcon = Icon(model.filterMode == FilterMode.ALL
+        ? Icons.filter_list
+        : Icons.delete_sweep);
     var title = _searchMode
         ? TextField(
             cursorColor: Colors.white,
@@ -69,7 +72,7 @@ class _BooksPage extends State<BooksPage> {
           },
         ),
         PopupMenuButton<FilterMode>(
-          icon: Icon(Icons.filter_list),
+          icon: filterIcon,
           onSelected: (mode) {
             widget._model.setFilterMode(mode);
           },
@@ -77,19 +80,31 @@ class _BooksPage extends State<BooksPage> {
             return [
               PopupMenuItem<FilterMode>(
                 value: FilterMode.ALL,
-                child: Text(Localization.of(context).all),
+                child: ListTile(
+                  leading: model.filterMode == FilterMode.ALL ? Icon(Icons.check) : null,
+                  title: Text(Localization.of(context).all),
+                ),
               ),
               PopupMenuItem<FilterMode>(
                 value: FilterMode.CURRENTLY_READING,
-                child: Text(Localization.of(context).currentlyReading),
+                child: ListTile(
+                  leading: model.filterMode == FilterMode.CURRENTLY_READING ? Icon(Icons.check) : null,
+                  title: Text(Localization.of(context).currentlyReading),
+                ),
               ),
               PopupMenuItem<FilterMode>(
                 value: FilterMode.THIS_YEAR,
-                child: Text(Localization.of(context).thisYear),
+                child: ListTile(
+                  leading: model.filterMode == FilterMode.THIS_YEAR ? Icon(Icons.check) : null,
+                  title: Text(Localization.of(context).thisYear),
+                ),
               ),
               PopupMenuItem<FilterMode>(
                 value: FilterMode.FINISHED,
-                child: Text(Localization.of(context).finished),
+                child: ListTile(
+                  leading: model.filterMode == FilterMode.FINISHED ? Icon(Icons.check) : null,
+                  title: Text(Localization.of(context).finished),
+                ),
               ),
             ];
           },

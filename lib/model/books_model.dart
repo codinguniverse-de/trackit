@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/book.dart';
 import 'package:track_it/data/database_provider.dart';
@@ -7,8 +8,9 @@ import 'package:track_it/pages/books_page.dart';
 
 class BooksModel extends Model {
   List<Book> _books = [];
+  List<Book> _filteredList = [];
   DatabaseProvider _provider;
-  FilterMode _filterMode;
+  FilterMode _filterMode = FilterMode.ALL;
   bool _isLoading = false;
   String _searchTerm = '';
   int _pagesRead = 0;
@@ -35,16 +37,12 @@ class BooksModel extends Model {
   }
 
   List<Book> get filteredBooks {
-    if (_searchTerm.isEmpty && _filterMode == FilterMode.ALL) return _books;
-
-    return _books
-        .where((book) =>
-            book.title.contains(_searchTerm) ||
-            book.authors.any((author) => author.contains(_searchTerm)))
-        .toList();
+    return _filteredList;
   }
 
   get isLoading => _isLoading;
+
+  FilterMode get filterMode => _filterMode;
 
   void selectBook(int bookId) async {
     _selectedBookId = bookId;
@@ -58,6 +56,7 @@ class BooksModel extends Model {
     _isLoading = false;
     if (books != null) {
       _books = await _provider.getAll();
+      await filterAndSearch();
       notifyListeners();
     }
   }
@@ -87,13 +86,16 @@ class BooksModel extends Model {
     return await _provider.getSumForBook(bookId);
   }
 
-  void search(String value) {
+  void search(String value) async {
     _searchTerm = value;
+    await filterAndSearch();
     notifyListeners();
   }
 
-  void setFilterMode(FilterMode mode) {
+  void setFilterMode(FilterMode mode) async {
     _filterMode = mode;
+    await filterAndSearch();
+    notifyListeners();
   }
 
   void addReadEntry(int bookId, int pages) async {
@@ -121,5 +123,55 @@ class BooksModel extends Model {
 
   Future<int> getTotalPages() async {
     return await _provider.getTotalPages();
+  }
+
+  filterAndSearch() async {
+    _filteredList = await filter();
+
+    if (_searchTerm != null && _searchTerm.isNotEmpty) {
+      _filteredList =  _filteredList
+          .where((book) =>
+      book.title.contains(_searchTerm) ||
+          book.authors.any((author) => author.contains(_searchTerm)))
+          .toList();
+    }
+  }
+
+  Future<List<Book>> filter() async {
+    List<Book> filtered = [];
+    switch(_filterMode) {
+      case FilterMode.ALL:
+        return _books;
+      case FilterMode.CURRENTLY_READING:
+        for (final book in _books) {
+          var readPages = await _provider.getSumForBook(book.id);
+          if (readPages < book.numPages) {
+            filtered.add(book);
+          }
+        }
+        return filtered;
+      case FilterMode.FINISHED:
+        for (final book in _books) {
+          var readPages = await _provider.getSumForBook(book.id);
+          if (readPages >= book.numPages) {
+            filtered.add(book);
+          }
+        }
+        return filtered;
+      case FilterMode.THIS_YEAR:
+        var allEntries = await _provider.getAllEntries();
+        int year = DateTime.now().year;
+        DateTime yearStart = DateTime(year);
+        var entriesThisYear = allEntries.where((entry) => entry.dateTime.isAfter(yearStart));
+        entriesThisYear.forEach((entry) {
+          var book = _books.firstWhere((book) => book.id == entry.bookId);
+          if (!filtered.contains(book)) {
+            filtered.add(book);
+          }
+        });
+
+        return filtered;
+    }
+    return [];
   }
 }
