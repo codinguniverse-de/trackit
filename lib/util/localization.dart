@@ -21,7 +21,11 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
-  get averagePages => _getValue(AveragePages);
+  String get all => _getValue(All);
+  String get currentlyReading => _getValue(CurrentlyReading);
+  String get thisYear => _getValue(ThisYear);
+  String get finished => _getValue(Finished);
+  String get averagePages => _getValue(AveragePages);
   String get totalPages => _getValue(TotalPages);
   String get generalData => _getValue(GeneralData);
   String get search => _getValue(Search);

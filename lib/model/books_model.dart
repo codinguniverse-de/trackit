@@ -3,10 +3,12 @@ import 'package:track_it/data/book.dart';
 import 'package:track_it/data/database_provider.dart';
 import 'package:track_it/data/read_entry.dart';
 import 'package:track_it/data/timeseries_pages.dart';
+import 'package:track_it/pages/books_page.dart';
 
 class BooksModel extends Model {
   List<Book> _books = [];
   DatabaseProvider _provider;
+  FilterMode _filterMode;
   bool _isLoading = false;
   String _searchTerm = '';
   int _pagesRead = 0;
@@ -33,7 +35,8 @@ class BooksModel extends Model {
   }
 
   List<Book> get filteredBooks {
-    if (_searchTerm.isEmpty) return _books;
+    if (_searchTerm.isEmpty && _filterMode == FilterMode.ALL) return _books;
+
     return _books
         .where((book) =>
             book.title.contains(_searchTerm) ||
@@ -87,6 +90,10 @@ class BooksModel extends Model {
   void search(String value) {
     _searchTerm = value;
     notifyListeners();
+  }
+
+  void setFilterMode(FilterMode mode) {
+    _filterMode = mode;
   }
 
   void addReadEntry(int bookId, int pages) async {

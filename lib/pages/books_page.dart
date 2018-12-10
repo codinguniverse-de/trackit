@@ -68,6 +68,32 @@ class _BooksPage extends State<BooksPage> {
             });
           },
         ),
+        PopupMenuButton<FilterMode>(
+          icon: Icon(Icons.filter_list),
+          onSelected: (mode) {
+            widget._model.setFilterMode(mode);
+          },
+          itemBuilder: (BuildContext context) {
+            return [
+              PopupMenuItem<FilterMode>(
+                value: FilterMode.ALL,
+                child: Text(Localization.of(context).all),
+              ),
+              PopupMenuItem<FilterMode>(
+                value: FilterMode.CURRENTLY_READING,
+                child: Text(Localization.of(context).currentlyReading),
+              ),
+              PopupMenuItem<FilterMode>(
+                value: FilterMode.THIS_YEAR,
+                child: Text(Localization.of(context).thisYear),
+              ),
+              PopupMenuItem<FilterMode>(
+                value: FilterMode.FINISHED,
+                child: Text(Localization.of(context).finished),
+              ),
+            ];
+          },
+        ),
       ],
     );
   }
@@ -84,7 +110,7 @@ class _BooksPage extends State<BooksPage> {
                 onTap: () {
                   model.selectBook(model.filteredBooks[index].id);
                   Navigator.of(context)
-                    .pushNamed('/book/${model.filteredBooks[index].id}');
+                      .pushNamed('/book/${model.filteredBooks[index].id}');
                 },
               );
             },
@@ -99,3 +125,5 @@ class _BooksPage extends State<BooksPage> {
     Navigator.of(context).pushNamed('/create');
   }
 }
+
+enum FilterMode { ALL, THIS_YEAR, FINISHED, CURRENTLY_READING }
