@@ -108,6 +108,10 @@ class BooksModel extends Model {
     return await _provider.getTimeSeriesPages(days);
   }
 
+  Future<double> getAveragePerDay(int days) async {
+    return await _provider.getAveragePerDay(days);
+  }
+
   Future<int> getTotalPages() async {
     return await _provider.getTotalPages();
   }

@@ -28,7 +28,8 @@ const String AppTitle = 'app_title',
     NoResults = 'no_results',
     Search = 'search',
     GeneralData = 'general_data',
-    TotalPages = 'total_pages';
+    TotalPages = 'total_pages',
+    AveragePages = 'average_pages';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -61,7 +62,8 @@ final de = {
   NoResults: 'Keine Ergebnisse',
   Search: 'Suche',
   GeneralData: 'Allgemeine Daten',
-  TotalPages: 'Seiten gesamt: '
+  TotalPages: 'Seiten gesamt: ',
+  AveragePages: 'Tagesdurchschnitt: ',
 };
 
 final en = {
@@ -95,5 +97,6 @@ final en = {
   NoResults: 'No Results',
   Search: 'Search',
   GeneralData: 'General data',
-  TotalPages: 'Total pages: '
+  TotalPages: 'Total pages: ',
+  AveragePages: 'Average pages per day: '
 };

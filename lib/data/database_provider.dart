@@ -140,6 +140,15 @@ class DatabaseProvider {
     return timeSeriesPages;
   }
 
+  Future<double> getAveragePerDay(int days) async {
+    var timeSeries = await getTimeSeriesPages(days);
+    double sum = 0;
+    timeSeries.forEach((series) {
+      sum += series.pagesRead.toDouble();
+    });
+    return sum / days;
+  }
+
   Future<int> getTotalPages() async {
     var values = await db.query(tableReadEntry, columns: [columnPagesRead]);
 

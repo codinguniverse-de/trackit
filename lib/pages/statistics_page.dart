@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_it/common/statistics/general_statistics_card.dart';
 import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/util/localization.dart';
@@ -20,12 +21,14 @@ class _StatisticsPageState extends State<StatisticsPage> {
   List<charts.Series<TimeSeriesPages, DateTime>> _seriesList = [];
   int _days = 30;
   int _totalPages = 0;
+  double _averagePages = 0.0;
 
   @override
   initState() {
     super.initState();
     fetchSeries();
     fetchTotalPages();
+    fetchAveragePages();
   }
 
   @override
@@ -39,20 +42,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: <Widget>[
-            Card(
-                child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          Localization.of(context).generalData,
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(height: 10.0,),
-                        Text(Localization.of(context).totalPages + _totalPages.toString()),
-                      ],
-                    ))),
+            GeneralStatisticsCard(
+              totalPages: _totalPages,
+              averagePages: _averagePages,
+            ),
             Card(
               child: Padding(
                 padding: EdgeInsets.all(12.0),
@@ -76,6 +69,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                               _days = value;
                             });
                             fetchSeries();
+                            fetchAveragePages();
                           },
                           value: _days,
                         ),
@@ -110,7 +104,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   void fetchSeries() async {
     var data = await widget.model.getTimeSeriesPages(_days);
-    print(data[0].date);
     setState(() {
       _seriesList = [
         charts.Series<TimeSeriesPages, DateTime>(
@@ -124,7 +117,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     });
   }
 
-  void fetchTotalPages() async{
+  void fetchTotalPages() async {
     int pages = await widget.model.getTotalPages();
     setState(() {
       _totalPages = pages;
@@ -148,4 +141,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
     ];
   }
 
+  void fetchAveragePages() async {
+    double pages = await widget.model.getAveragePerDay(_days);
+    setState(() {
+      _averagePages = pages;
+    });
+  }
 }
