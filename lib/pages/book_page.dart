@@ -136,9 +136,7 @@ class _BookPageState extends State<BookPage> {
   }
 
   Widget _buildTitle() {
-    double width = MediaQuery.of(context).size.width * 0.9;
-    return Container(
-      width: width,
+    return Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
         widget.book.title,
@@ -147,7 +145,6 @@ class _BookPageState extends State<BookPage> {
           fontWeight: FontWeight.w700,
         ),
         textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -164,10 +161,11 @@ class _BookPageState extends State<BookPage> {
       return SizedBox();
     else
       return Padding(
-        padding: const EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.only(top: 12.0),
         child: Text(
           Localization.of(context).publishedBy + widget.book.publisher,
           style: TextStyle(fontSize: 20.0, color: Colors.black),
+          textAlign: TextAlign.center,
         ),
       );
   }
