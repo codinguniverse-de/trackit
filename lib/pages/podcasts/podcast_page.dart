@@ -22,6 +22,7 @@ class PodcastPage extends StatelessWidget {
                   expandedHeight: 200.0,
                   floating: false,
                   pinned: true,
+                  title: Text(podcast.name),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     background:

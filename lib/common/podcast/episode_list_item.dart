@@ -14,7 +14,9 @@ class EpisodeListItem extends StatelessWidget {
       children: <Widget>[
         ListTile(
           onTap: onTap,
-          title: Text(episode.title),
+          title: Text(
+            episode.title,
+          ),
           subtitle: Text(formatTime(episode.length)),
           trailing: buildIconButton(context),
         ),
@@ -45,12 +47,12 @@ class EpisodeListItem extends StatelessWidget {
 
   String formatTime(int seconds) {
     double minutes = (seconds / 60);
-
     double hours = (minutes / 60);
-    if (hours == 0) {
+    if (hours.floor() == 0) {
       return '${minutes.toStringAsFixed(0)} Min.';
     } else {
-      return '${hours.toStringAsFixed(0)} h ${minutes.toStringAsFixed(0)} Min.';
+      double mins = minutes % 60;
+      return '${hours.floor()} h ${mins.floor()} Min.';
     }
   }
 }
