@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_it/common/statistics/general_statistics_card.dart';
 import 'package:track_it/common/side_drawer.dart';
-import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:charts_flutter/flutter.dart' as charts;

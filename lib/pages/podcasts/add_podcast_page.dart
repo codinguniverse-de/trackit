@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/common/podcast/podcast_list_item.dart';
+import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/model/main_model.dart';
+import 'package:track_it/pages/podcasts/podcast_detail_page.dart';
 import 'package:track_it/util/localization.dart';
 
 class AddPodcastPage extends StatefulWidget {
@@ -30,7 +31,8 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: <Widget>[
-                      Expanded(child: TextField(
+                      Expanded(
+                          child: TextField(
                         onChanged: (value) {
                           setState(() {
                             _searchTerm = value;
@@ -50,7 +52,10 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
                   ),
                 ),
               ),
-              Expanded(child: ListView.builder(itemBuilder: _buildItem, itemCount: model.searchResults.length,))
+              SizedBox(
+                height: 10.0,
+              ),
+              buildList(model)
             ],
           ),
         );
@@ -58,11 +63,48 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
     );
   }
 
+  Widget buildList(MainModel model) {
+    if (_model.podcastsLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return Expanded(
+        child: ListView.builder(
+      itemBuilder: _buildItem,
+      itemCount: model.searchResults.length,
+    ));
+  }
+
   void submitSearch() {
-    print(_searchTerm);
+    _model.searchPodcasts(_searchTerm);
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return PodcastListItem(podcast: _model.searchResults[index],);
+    var podcast = _model.searchResults[index];
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: Container(
+            padding: EdgeInsets.all(8.0),
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              image: DecorationImage(image: NetworkImage(podcast.thumbUrl)),
+            ),
+          ),
+          title: Text(podcast.title),
+          trailing: IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          onTap: () => onItemTap(podcast),
+        ),
+        Divider(),
+      ],
+    );
+  }
+
+  void onItemTap(PodcastScheme podcast) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PodcastDetailPage(podcast)));
   }
 }

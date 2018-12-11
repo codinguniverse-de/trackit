@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 
 
 class SettingsPage extends StatelessWidget {
-  Function(Brightness) themeChanged;
+  final Function(Brightness) themeChanged;
 
   SettingsPage({this.themeChanged});
 
