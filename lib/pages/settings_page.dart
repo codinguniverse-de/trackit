@@ -6,6 +6,10 @@ import 'package:track_it/util/localization.dart';
 
 
 class SettingsPage extends StatelessWidget {
+  Function(Brightness) themeChanged;
+
+  SettingsPage({this.themeChanged});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +23,7 @@ class SettingsPage extends StatelessWidget {
       ScopedModelDescendant<MainModel>(
         builder: (context, widget, model) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.input),
@@ -32,6 +37,32 @@ class SettingsPage extends StatelessWidget {
                 onTap: () => _exportData(context, model),
               ),
               Divider(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Theme', style: Theme.of(context).textTheme.subhead),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Light'),
+                  Radio<Brightness>(
+                    value: Brightness.light,
+                    onChanged: themeChanged,
+                    groupValue: model.theme,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Dark'),
+                  Radio<Brightness>(
+                    value: Brightness.dark,
+                    onChanged: themeChanged,
+                    groupValue: model.theme,
+                  ),
+                ],
+              ),
             ],
           );
         }

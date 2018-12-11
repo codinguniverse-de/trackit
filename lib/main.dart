@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/book/book.dart';
-import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/pages/books/book_page.dart';
 import 'package:track_it/pages/books/books_page.dart';
@@ -10,11 +9,27 @@ import 'package:track_it/pages/books/edit_book_page.dart';
 import 'package:track_it/pages/settings_page.dart';
 import 'package:track_it/pages/statistics_page.dart';
 import 'package:track_it/util/localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+@override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
   final model = MainModel();
+  Brightness _theme = Brightness.light;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getTheme();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +48,12 @@ class MyApp extends StatelessWidget {
         title: 'TrackIt',
         theme: ThemeData(
           primarySwatch: Colors.green,
-          brightness: Brightness.light,
+          brightness: _theme,
         ),
         routes: {
           '/': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
-          '/settings': (BuildContext context) => SettingsPage(),
+          '/settings': (BuildContext context) => SettingsPage(themeChanged: themeChanged,),
           '/statistics': (BuildContext context) => StatisticsPage(model),
         },
         onGenerateRoute: (RouteSettings settings) {
@@ -64,5 +79,43 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void getTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String theme = prefs.getString('theme') ?? 'light';
+
+    switch(theme) {
+      case 'light':
+        setState(() {
+          _theme = Brightness.light;
+        });
+        model.theme = Brightness.light;
+        break;
+      case 'dark':
+        setState(() {
+          _theme = Brightness.dark;
+        });
+        model.theme = Brightness.dark;
+        break;
+    }
+  }
+
+  void themeChanged(Brightness theme) async {
+    setState(() {
+      _theme = theme;
+    });
+    model.theme = theme;
+    String value = 'light';
+    switch(theme) {
+      case Brightness.dark:
+        value = 'dark';
+        break;
+      case Brightness.light:
+        value = 'light';
+        break;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('theme', value);
   }
 }
