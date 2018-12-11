@@ -11,19 +11,19 @@ class PodcastListItem extends StatelessWidget {
   });
 
   Widget _buildImage() {
-    return podcast.imageUrl == null
-        ? Image.asset(
-            'assets/podcast_icon.png',
-            fit: BoxFit.fitWidth,
-            width: 80.0,
-            height: 80.0,
-          )
-        : FadeInImage(
-            width: 80.0,
-            height: 80.0,
-            placeholder: AssetImage('assets/book_icon.png'),
-            image: NetworkImage(podcast.imageUrl),
-          );
+    return Container(
+      height: 40.0,
+      width: 40.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: podcast.imageUrl == null
+              ? AssetImage('assets/podcast_icon.png')
+              : NetworkImage(podcast.imageUrl),
+          ),
+        borderRadius: BorderRadius.circular(40.0),
+      ),
+    );
   }
 
   @override

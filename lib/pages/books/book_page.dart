@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/book/price_tag.dart';
@@ -72,12 +74,14 @@ class _BookPageState extends State<BookPage> {
               children: <Widget>[
                 _buildImage(),
                 buildProgressIndicator(model),
-                    _buildTitle(),
+                _buildTitle(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildAuthor(),
-                    SizedBox(width: 10.0,),
+                    SizedBox(
+                      width: 10.0,
+                    ),
                     PriceTag(value: widget.book.price),
                   ],
                 ),
@@ -126,12 +130,18 @@ class _BookPageState extends State<BookPage> {
         height: 160.0,
       );
     } else {
-      return FadeInImage(
-        width: 160.0,
-        height: 1600.0,
-        placeholder: AssetImage('assets/book_icon.png'),
-        image: NetworkImage(widget.book.imageUrl),
-      );
+      return Container(
+          width: 160.0,
+          height: 160.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80.0),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: FileImage(
+                File(widget.book.imageUrl),
+              ),
+            ),
+          ));
     }
   }
 
