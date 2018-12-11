@@ -158,4 +158,11 @@ class DatabaseProvider {
 
     return sum;
   }
+
+  Future<double> getTotalPrice() async {
+    var values = await db.query(tableBook, columns: [columnPrice]);
+    double sum = 0;
+    values.map((m) => m[columnPrice]).forEach((price) => sum += price);
+    return sum;
+  }
 }

@@ -22,12 +22,15 @@ class _StatisticsPageState extends State<StatisticsPage> {
   int _days = 30;
   int _totalPages = 0;
   double _averagePages = 0.0;
+  double _totalPrice = 0.0;
+
 
   @override
   initState() {
     super.initState();
     fetchSeries();
     fetchTotalPages();
+    fetchTotalPrice();
     fetchAveragePages();
   }
 
@@ -45,6 +48,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
             GeneralStatisticsCard(
               totalPages: _totalPages,
               averagePages: _averagePages,
+              totalPrice: _totalPrice,
             ),
             Card(
               child: Padding(
@@ -59,6 +63,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             Localization.of(context).pagesPerDay,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
+                              fontSize: 16.0
                             ),
                           ),
                         ),
@@ -121,6 +126,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
     int pages = await widget.model.getTotalPages();
     setState(() {
       _totalPages = pages;
+    });
+  }
+
+  void fetchTotalPrice() async {
+    double price = await widget.model.getTotalPrice();
+    setState(() {
+      _totalPrice = price;
     });
   }
 

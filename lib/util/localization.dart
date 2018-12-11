@@ -32,6 +32,7 @@ class Localization {
   String get finished => _getValue(Finished);
   String get averagePages => _getValue(AveragePages);
   String get totalPages => _getValue(TotalPages);
+  String get totalPrice => _getValue(TotalPrice);
   String get generalData => _getValue(GeneralData);
   String get search => _getValue(Search);
   String get noResults => _getValue(NoResults);

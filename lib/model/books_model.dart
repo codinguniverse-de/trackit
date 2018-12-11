@@ -174,4 +174,8 @@ class BooksModel extends Model {
     }
     return [];
   }
+
+  Future<double> getTotalPrice() async {
+    return await _provider.getTotalPrice();
+  }
 }
