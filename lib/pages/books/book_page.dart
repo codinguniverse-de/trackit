@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/price_tag.dart';
 import 'package:track_it/common/slider_input.dart';
-import 'package:track_it/data/book.dart';
+import 'package:track_it/data/book/book.dart';
 import 'package:track_it/model/books_model.dart';
+import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
@@ -34,7 +35,7 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<BooksModel>(builder: (context, _, model) {
+    return ScopedModelDescendant<MainModel>(builder: (context, _, model) {
       return Scaffold(
         appBar: AppBar(
           title: Text(widget.book.title),
@@ -95,7 +96,7 @@ class _BookPageState extends State<BookPage> {
     });
   }
 
-  Row buildProgressIndicator(BooksModel model) {
+  Row buildProgressIndicator(MainModel model) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -170,7 +171,7 @@ class _BookPageState extends State<BookPage> {
       );
   }
 
-  Widget _buildRatingBar(BooksModel model) {
+  Widget _buildRatingBar(MainModel model) {
     return Padding(
       padding: EdgeInsets.only(top: 24.0),
       child: SmoothStarRating(
@@ -190,7 +191,7 @@ class _BookPageState extends State<BookPage> {
     );
   }
 
-  void onAddReadEntry(BooksModel model) {
+  void onAddReadEntry(MainModel model) {
     _selectedPages = model.currentPages;
     showModalBottomSheet(
         context: context,

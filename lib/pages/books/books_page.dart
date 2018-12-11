@@ -3,10 +3,11 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/book_list_item.dart';
 import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/books_model.dart';
+import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 
 class BooksPage extends StatefulWidget {
-  final BooksModel _model;
+  final MainModel _model;
 
   BooksPage(this._model);
 
@@ -26,7 +27,7 @@ class _BooksPage extends State<BooksPage> {
   }
 
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<BooksModel>(
+    return ScopedModelDescendant<MainModel>(
       builder: (context, widget, model) {
         return Scaffold(
           drawer: SideDrawer(),
@@ -34,7 +35,7 @@ class _BooksPage extends State<BooksPage> {
           body: buildListView(model),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () => _onAddBook(context, model),
+            onPressed: () => _onAddBook(context),
           ),
           floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
         );
@@ -42,7 +43,7 @@ class _BooksPage extends State<BooksPage> {
     );
   }
 
-  AppBar buildAppBar(BuildContext context, BooksModel model) {
+  AppBar buildAppBar(BuildContext context, MainModel model) {
     var icon = Icon(_searchMode ? Icons.clear : Icons.search);
     var filterIcon = Icon(model.filterMode == FilterMode.ALL
         ? Icons.filter_list
@@ -113,7 +114,7 @@ class _BooksPage extends State<BooksPage> {
     );
   }
 
-  Widget buildListView(BooksModel model) {
+  Widget buildListView(MainModel model) {
     if (model.isLoading) {
       return Center(child: CircularProgressIndicator());
     }
@@ -136,7 +137,7 @@ class _BooksPage extends State<BooksPage> {
           );
   }
 
-  void _onAddBook(BuildContext context, BooksModel model) {
+  void _onAddBook(BuildContext context) {
     Navigator.of(context).pushNamed('/create');
   }
 }

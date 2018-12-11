@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/data/book.dart';
+import 'package:track_it/data/book/book.dart';
 import 'package:track_it/model/books_model.dart';
-import 'package:track_it/pages/book_page.dart';
-import 'package:track_it/pages/books_page.dart';
+import 'package:track_it/model/main_model.dart';
+import 'package:track_it/pages/books/book_page.dart';
+import 'package:track_it/pages/books/books_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:track_it/pages/edit_book_page.dart';
+import 'package:track_it/pages/books/edit_book_page.dart';
 import 'package:track_it/pages/settings_page.dart';
 import 'package:track_it/pages/statistics_page.dart';
 import 'package:track_it/util/localization.dart';
@@ -13,11 +14,11 @@ import 'package:track_it/util/localization.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final model = BooksModel();
+  final model = MainModel();
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<BooksModel>(
+    return ScopedModel<MainModel>(
       model: model,
       child: MaterialApp(
         localizationsDelegates: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/model/books_model.dart';
+import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 
 
@@ -15,7 +16,7 @@ class SettingsPage extends StatelessWidget {
         title: Text(Localization.of(context).settings),
       ),
       body:
-      ScopedModelDescendant<BooksModel>(
+      ScopedModelDescendant<MainModel>(
         builder: (context, widget, model) {
           return Column(
             children: <Widget>[
@@ -51,7 +52,7 @@ class SettingsPage extends StatelessWidget {
 
   }
 
-  void _exportData(BuildContext context, BooksModel model) async {
+  void _exportData(BuildContext context, MainModel model) async {
 //    var path = await getApplicationDocumentsDirectory();
 //    if (path == null)
 //      return;

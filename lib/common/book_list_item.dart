@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:track_it/data/book.dart';
+import 'package:track_it/data/book/book.dart';
 
 class BookListItem extends StatelessWidget {
   final Book book;

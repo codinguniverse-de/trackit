@@ -1,24 +1,19 @@
-import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/data/book.dart';
+import 'package:track_it/data/book/book.dart';
 import 'package:track_it/data/database_provider.dart';
-import 'package:track_it/data/read_entry.dart';
+import 'package:track_it/data/book/read_entry.dart';
 import 'package:track_it/data/timeseries_pages.dart';
-import 'package:track_it/pages/books_page.dart';
+import 'package:track_it/pages/books/books_page.dart';
 
-class BooksModel extends Model {
+mixin BooksModel on Model {
   List<Book> _books = [];
   List<Book> _filteredList = [];
-  DatabaseProvider _provider;
   FilterMode _filterMode = FilterMode.ALL;
   bool _isLoading = false;
   String _searchTerm = '';
   int _pagesRead = 0;
   int _selectedBookId = -1;
-
-  BooksModel() {
-    _provider = DatabaseProvider();
-  }
+  DatabaseProvider _provider = DatabaseProvider();
 
   List<Book> get books {
     return _books;

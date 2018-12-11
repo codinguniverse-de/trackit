@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/api/schemes/book_scheme.dart';
-import 'package:track_it/data/book.dart';
+import 'package:track_it/data/book/book.dart';
 import 'package:track_it/model/books_model.dart';
-import 'package:track_it/pages/search_book_page.dart';
+import 'package:track_it/model/main_model.dart';
+import 'package:track_it/pages/books/search_book_page.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -33,6 +34,7 @@ class _EditBookPageState extends State<EditBookPage> {
     'publisher': null,
     'price': 0.0,
     'numPages': 0,
+    'imageUrl': '',
   };
   File _image;
 
@@ -53,7 +55,7 @@ class _EditBookPageState extends State<EditBookPage> {
     return Scaffold(
       appBar: AppBar(
         title: _createTitle(),
-        leading: ScopedModelDescendant<BooksModel>(
+        leading: ScopedModelDescendant<MainModel>(
             builder: (context, widget, model) {
           return IconButton(
             icon: Icon(Icons.check),
@@ -230,8 +232,10 @@ class _EditBookPageState extends State<EditBookPage> {
     return Text(Localization.of(context).editBookTitle);
   }
 
-  void submitForm(BooksModel model) {
-    print(_formKey.currentState.validate());
+  void submitForm(MainModel model) {
+    if (_image != null) {
+      _formData['imageUrl'] = _image.path;
+    }
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -299,17 +303,19 @@ class _EditBookPageState extends State<EditBookPage> {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                              _image == null ? SizedBox() :
-                                  ListTile(
-                                    leading: Icon(Icons.delete),
-                                    title: Text(Localization.of(context).removeImage),
-                                    onTap: () {
-                                      setState(() {
-                                        _image = null;
-                                        Navigator.of(context).pop();
-                                      });
-                                    },
-                                  )
+                              _image == null
+                                  ? SizedBox()
+                                  : ListTile(
+                                      leading: Icon(Icons.delete),
+                                      title: Text(
+                                          Localization.of(context).removeImage),
+                                      onTap: () {
+                                        setState(() {
+                                          _image = null;
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                    )
                             ],
                           ),
                         );
