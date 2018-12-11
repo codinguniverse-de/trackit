@@ -40,6 +40,14 @@ class _EditBookPageState extends State<EditBookPage> {
   @override
   void initState() {
     super.initState();
+    _formData = {
+      'title': null,
+      'author': null,
+      'publisher': null,
+      'price': 0.0,
+      'numPages': 0,
+      'imageUrl': '',
+    };
     if (widget.editBook != null) {
       _titleController.text = widget.editBook.title;
       _authorController.text = widget.editBook.authors[0];
@@ -54,13 +62,12 @@ class _EditBookPageState extends State<EditBookPage> {
     return Scaffold(
       appBar: AppBar(
         title: _createTitle(),
-        leading: ScopedModelDescendant<MainModel>(
-            builder: (context, widget, model) {
+        leading:
+            ScopedModelDescendant<MainModel>(builder: (context, widget, model) {
           return IconButton(
             icon: Icon(Icons.check),
             onPressed: () {
               submitForm(model);
-              Navigator.of(context).pushReplacementNamed('/');
             },
           );
         }),
@@ -159,6 +166,7 @@ class _EditBookPageState extends State<EditBookPage> {
         _formData['price'] = double.parse(value);
       },
       validator: (value) {
+        print(value);
         if (value.isEmpty || double.tryParse(value) == null) {
           return Localization.of(context).priceRequired;
         }
@@ -246,6 +254,7 @@ class _EditBookPageState extends State<EditBookPage> {
       book.id = widget.editBook.id;
       model.updateBook(book);
     }
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   Widget buildImageContainer(BuildContext context) {
