@@ -87,14 +87,14 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         _seriesList,
                         animate: true,
                         defaultRenderer:
-                            new charts.BarRendererConfig<DateTime>(),
+                            charts.BarRendererConfig<DateTime>(),
                         domainAxis: new charts.DateTimeAxisSpec(
                           usingBarRenderer: true,
                         ),
-                        defaultInteractions: false,
+                        defaultInteractions: true,
                         behaviors: [
-                          new charts.SelectNearest(),
-                          new charts.DomainHighlighter()
+                          charts.SelectNearest(),
+                          charts.DomainHighlighter()
                         ],
                       ),
                     ),

@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-@override
+  @override
   State<StatefulWidget> createState() {
     return _MyAppState();
   }
@@ -53,7 +53,9 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
-          '/settings': (BuildContext context) => SettingsPage(themeChanged: themeChanged,),
+          '/settings': (BuildContext context) => SettingsPage(
+                themeChanged: themeChanged,
+              ),
           '/statistics': (BuildContext context) => StatisticsPage(model),
         },
         onGenerateRoute: (RouteSettings settings) {
@@ -77,6 +79,8 @@ class _MyAppState extends State<MyApp> {
             );
           }
         },
+        onUnknownRoute: (settings) =>
+            MaterialPageRoute(builder: (context) => BooksPage(model)),
       ),
     );
   }
@@ -85,7 +89,7 @@ class _MyAppState extends State<MyApp> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String theme = prefs.getString('theme') ?? 'light';
 
-    switch(theme) {
+    switch (theme) {
       case 'light':
         setState(() {
           _theme = Brightness.light;
@@ -107,7 +111,7 @@ class _MyAppState extends State<MyApp> {
     });
     model.theme = theme;
     String value = 'light';
-    switch(theme) {
+    switch (theme) {
       case Brightness.dark:
         value = 'dark';
         break;
