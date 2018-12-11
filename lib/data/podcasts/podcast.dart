@@ -15,7 +15,7 @@ class Podcast {
 
   List<PodcastEpisode> episodes;
 
-  Podcast({this.id, this.name, this.author, this.episodes});
+  Podcast({this.id, this.name, this.author, this.episodes, this.imageUrl});
 
   Map<String, dynamic> toMap() {
     var map = {

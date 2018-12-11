@@ -37,7 +37,8 @@ const String AppTitle = 'app_title',
     Finished = 'finished',
     Gallery = 'gallery',
     TakeImage = 'take_image',
-    RemoveImage = 'remove_image';
+    RemoveImage = 'remove_image',
+    Podcasts = 'podcasts';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -80,6 +81,7 @@ final de = {
   Gallery: 'Gallerie',
   TakeImage: 'Foto aufnehmen',
   RemoveImage: 'Bild entfernen',
+  Podcasts: 'Podcasts'
 };
 
 final en = {
@@ -123,4 +125,5 @@ final en = {
   Gallery: 'Gallery',
   TakeImage: 'Take image',
   RemoveImage: 'Remove image',
+  Podcasts: 'Podcasts'
 };

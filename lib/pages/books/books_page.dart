@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/common/book_list_item.dart';
+import 'package:track_it/common/book/book_list_item.dart';
 import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
