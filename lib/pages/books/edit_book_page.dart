@@ -166,7 +166,6 @@ class _EditBookPageState extends State<EditBookPage> {
         _formData['price'] = double.parse(value);
       },
       validator: (value) {
-        print(value);
         if (value.isEmpty || double.tryParse(value) == null) {
           return Localization.of(context).priceRequired;
         }

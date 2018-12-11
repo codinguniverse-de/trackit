@@ -59,4 +59,10 @@ mixin PodcastModel on Model {
     schemeToAdd.loadingAdd = false;
     notifyListeners();
   }
+
+  void toggleListened(PodcastEpisode episode) async {
+    episode.listened = !episode.listened;
+    notifyListeners();
+    await _database.updateEpisode(episode);
+  }
 }

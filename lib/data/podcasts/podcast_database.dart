@@ -60,12 +60,10 @@ class PodcastDatabase {
   }
 
   Future<List<PodcastEpisode>> getPodcastEpisodes(int podcastId) async {
-    List<Map> maps = await db.query(
-      tableEpisode,
-      where: '$columnPodcastId = ?',
-      whereArgs: [podcastId],
-      orderBy: '$columnPublishDate DESC'
-    );
+    List<Map> maps = await db.query(tableEpisode,
+        where: '$columnPodcastId = ?',
+        whereArgs: [podcastId],
+        orderBy: '$columnPublishDate DESC');
     if (maps != null) {
       return maps.map((map) => PodcastEpisode.fromMap(map)).toList();
     }
@@ -73,6 +71,12 @@ class PodcastDatabase {
   }
 
   Future updateEpisode(PodcastEpisode episode) async {
-    await db.update(tableEpisode, episode.toMap());
+    int result = await db.update(
+      tableEpisode,
+      episode.toMap(),
+      where: '$columnId = ?',
+      whereArgs: [episode.id],
+    );
+    print(result);
   }
 }

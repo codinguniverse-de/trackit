@@ -49,7 +49,7 @@ class PodcastEpisode {
     podcastId = map[columnPodcastId];
     length = map[columnEpisodeLength];
     publishedAt = DateTime.fromMillisecondsSinceEpoch(map[columnPublishDate]);
-    listened = map[listened] == 1;
+    listened = map[columnListened] == 1;
   }
 
   PodcastEpisode.fromScheme(EpisodeScheme scheme) {
