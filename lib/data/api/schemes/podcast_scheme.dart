@@ -9,6 +9,8 @@ class PodcastScheme {
   String description;
   int episodeCount;
   String language;
+  bool added;
+  bool loadingAdd;
 
   PodcastScheme.fromMap(Map<String, dynamic> map) {
     title = map['title'];
@@ -21,5 +23,7 @@ class PodcastScheme {
     description = map['description'];
     subtitle = map['subtitle'];
     episodeCount = int.tryParse(map['episode_count']);
+    added = false;
+    loadingAdd = false;
   }
 }

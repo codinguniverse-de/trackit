@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/podcast/podcast_list_item.dart';
 import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/main_model.dart';
@@ -25,23 +26,27 @@ class _PodcastsPageState extends State<PodcastsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: SideDrawer(),
-      appBar: AppBar(
-        title: Text(
-          Localization.of(context).podcasts,
-        ),
-      ),
-      body: ListView.builder(
-        itemBuilder: _buildItem,
-        itemCount: widget.model.podcasts.length,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).pushNamed('/addpodcast');
-        },
-      ),
+    return ScopedModelDescendant<MainModel>(
+      builder: (_, widget, model) {
+        return Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text(
+              Localization.of(context).podcasts,
+            ),
+          ),
+          body: ListView.builder(
+            itemBuilder: _buildItem,
+            itemCount: model.podcasts.length,
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addpodcast');
+            },
+          ),
+        );
+      }
     );
   }
 

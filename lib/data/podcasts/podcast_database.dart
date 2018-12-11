@@ -24,7 +24,8 @@ class PodcastDatabase {
           $columnEpisodeTitle string,
           $columnEpisodeDescription string,
           $columnEpisodeLength integer,
-          $columnPublishDate integer)
+          $columnPublishDate integer,
+          $columnListened integer)
       ''');
     });
   }
@@ -37,8 +38,35 @@ class PodcastDatabase {
   Future<List<Podcast>> getPodcasts() async {
     List<Map> maps = await db.query(tablePodcast);
     if (maps != null) {
-      return maps.map((map) => Podcast.fromMap(map)).toList();
+      var podcasts = maps.map((map) => Podcast.fromMap(map)).toList();
+      for(var podcast in podcasts) {
+        var episodes = await getPodcastEpisodes(podcast.id);
+        podcast.episodes.addAll(episodes);
+      }
+      return podcasts;
     }
     return [];
+  }
+
+  Future<bool> podcastIsAdded(int podcastId) async {
+    List<Map> maps = await db.query(tablePodcast, where: '$columnId = ?', whereArgs: [podcastId]);
+    return maps != null && maps.length > 0;
+  }
+
+  Future<PodcastEpisode> insertEpisode(PodcastEpisode episode) async {
+    await db.insert(tableEpisode, episode.toMap());
+    return episode;
+  }
+
+  Future<List<PodcastEpisode>> getPodcastEpisodes(int podcastId) async {
+    List<Map> maps = await db.query(tableEpisode, where: '$columnPodcastId = ?', whereArgs: [podcastId],);
+    if (maps != null) {
+      return maps.map((map) => PodcastEpisode.fromMap(map)).toList();
+    }
+    return [];
+  }
+
+  Future updateEpisode(PodcastEpisode episode) async {
+    await db.update(tableEpisode, episode.toMap());
   }
 }

@@ -97,9 +97,7 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
             ),
           ),
           title: Text(podcast.title),
-          trailing: IconButton(icon: Icon(Icons.add), onPressed: () {
-            onItemAdd(podcast);
-          }),
+          trailing: buildAddButton(podcast, context),
           onTap: () => onItemTap(podcast),
         ),
         Divider(),
@@ -107,8 +105,29 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
     );
   }
 
+  Widget buildAddButton(PodcastScheme podcast, BuildContext context) {
+    if (podcast.loadingAdd) {
+      return CircularProgressIndicator();
+    }
+
+    return podcast.added
+            ? IconButton(
+                icon: Icon(
+                  Icons.check,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () {})
+            : IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  onItemAdd(podcast);
+                },
+              );
+  }
+
   void onItemTap(PodcastScheme podcast) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PodcastDetailPage(podcast)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => PodcastDetailPage(podcast)));
   }
 
   void onItemAdd(PodcastScheme scheme) {

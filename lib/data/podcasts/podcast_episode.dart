@@ -1,4 +1,6 @@
 
+import 'package:track_it/data/api/schemes/episode_scheme.dart';
+
 final String tableEpisode = 'episodes';
 final String _columnId = 'id';
 final String columnPodcastId = 'podcastId';
@@ -6,6 +8,7 @@ final String columnEpisodeTitle = 'title';
 final String columnEpisodeDescription = 'description';
 final String columnEpisodeLength = 'length';
 final String columnPublishDate = 'publishDate';
+final String columnListened = 'listened';
 
 
 class PodcastEpisode {
@@ -14,7 +17,7 @@ class PodcastEpisode {
   String title;
   String description;
   int length;
-
+  bool listened;
   DateTime publishedAt;
 
   PodcastEpisode({
@@ -23,6 +26,7 @@ class PodcastEpisode {
     this.description,
     this.length,
     this.publishedAt,
+    this.listened,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +37,7 @@ class PodcastEpisode {
       columnPodcastId: podcastId,
       columnEpisodeLength: length,
       columnPublishDate: publishedAt.millisecondsSinceEpoch,
+      columnListened: listened ? 1 : 0,
     };
     return map;
   }
@@ -44,5 +49,16 @@ class PodcastEpisode {
     podcastId = map[columnPodcastId];
     length = map[columnEpisodeLength];
     publishedAt = DateTime.fromMillisecondsSinceEpoch(map[columnPublishDate]);
+    listened = map[listened] == 1;
+  }
+
+  PodcastEpisode.fromScheme(EpisodeScheme scheme) {
+    id = scheme.id;
+    title = scheme.title;
+    description = scheme.description;
+    podcastId = scheme.podcastId;
+    length = scheme.length;
+    publishedAt = scheme.pubDate;
+    listened = false;
   }
 }

@@ -19,7 +19,7 @@ class Podcast {
   String description;
   String thumbUrl;
 
-  List<PodcastEpisode> episodes;
+  List<PodcastEpisode> episodes = [];
 
 
   Podcast({this.id, this.imageUrl, this.name, this.lastpub, this.description,
