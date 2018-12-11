@@ -7,4 +7,6 @@ mixin PodcastModel on Model {
     Podcast(author: 'Daniel Korth', name: 'Finanzrocker'),
     Podcast(author: 'Seth Rogan', name: 'Smart Passive Incode', imageUrl: 'https://cdn.smartpassiveincome.com/wp-content/themes/rocket/img/podcast-tile-spi@2x.jpg'),
   ];
+
+  List<Podcast> searchResults = [];
 }

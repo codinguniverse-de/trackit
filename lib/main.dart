@@ -6,6 +6,7 @@ import 'package:track_it/pages/books/book_page.dart';
 import 'package:track_it/pages/books/books_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:track_it/pages/books/edit_book_page.dart';
+import 'package:track_it/pages/podcasts/add_podcast_page.dart';
 import 'package:track_it/pages/podcasts/podcasts_page.dart';
 import 'package:track_it/pages/settings_page.dart';
 import 'package:track_it/pages/statistics_page.dart';
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
           '/': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
           '/podcasts': (BuildContext context) => PodcastsPage(model),
+          '/addpodcast': (BuildContext context) => AddPodcastPage(),
           '/settings': (BuildContext context) => SettingsPage(
                 themeChanged: themeChanged,
               ),

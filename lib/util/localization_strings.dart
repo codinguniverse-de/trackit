@@ -38,7 +38,8 @@ const String AppTitle = 'app_title',
     Gallery = 'gallery',
     TakeImage = 'take_image',
     RemoveImage = 'remove_image',
-    Podcasts = 'podcasts';
+    Podcasts = 'podcasts',
+    AddPodcast = 'add_podcast';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -56,7 +57,7 @@ final de = {
   PagesRequired: 'Seitenanzahl ist ein Pflichtfeld',
   PublishedBy: 'Herausgegeben von ',
   Delete: 'Löschen',
-  BooksDrawerItem: 'Alle Bücher',
+  BooksDrawerItem: 'Bücher',
   AddBooks: 'Füge deine Bücher hinzu',
   Pages: 'Seiten',
   Settings: 'Einstellungen',
@@ -81,7 +82,8 @@ final de = {
   Gallery: 'Gallerie',
   TakeImage: 'Foto aufnehmen',
   RemoveImage: 'Bild entfernen',
-  Podcasts: 'Podcasts'
+  Podcasts: 'Podcasts',
+  AddPodcast: 'Podcast hinzufügen',
 };
 
 final en = {
@@ -100,7 +102,7 @@ final en = {
   PagesRequired: 'Number of pages is required',
   PublishedBy: 'Published by ',
   Delete: 'Delete',
-  BooksDrawerItem: 'All books',
+  BooksDrawerItem: 'Books',
   AddBooks: 'Add your books',
   Pages: 'pages',
   Settings: 'Settings',
@@ -125,5 +127,6 @@ final en = {
   Gallery: 'Gallery',
   TakeImage: 'Take image',
   RemoveImage: 'Remove image',
-  Podcasts: 'Podcasts'
+  Podcasts: 'Podcasts',
+  AddPodcast: 'Add Podcast',
 };

@@ -9,6 +9,7 @@ class Localization {
 
   Localization(this.locale);
 
+
   static Localization of(BuildContext context) {
     return Localizations.of<Localization>(context, Localization);
   }
@@ -20,6 +21,7 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get addPodcast => _getValue(AddPodcast);
   String get podcasts => _getValue(Podcasts);
   String get removeImage => _getValue(RemoveImage);
   String get gallery => _getValue(Gallery);

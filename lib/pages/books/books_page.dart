@@ -59,7 +59,7 @@ class _BooksPage extends State<BooksPage> {
               model.search(value);
             },
           )
-        : Text(Localization.of(context).appTitle);
+        : Text(Localization.of(context).booksDrawerItem);
     return AppBar(
       title: title,
       actions: <Widget>[

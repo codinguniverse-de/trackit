@@ -22,10 +22,18 @@ class PodcastsPage extends StatelessWidget {
         itemBuilder: _buildItem,
         itemCount: model.podcasts.length,
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/addpodcast');
+        },
+      ),
     );
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return PodcastListItem(podcast: model.podcasts[index],);
+    return PodcastListItem(
+      podcast: model.podcasts[index],
+    );
   }
 }
