@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/api/schemes/book_scheme.dart';
 import 'package:track_it/data/book/book.dart';
-import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/pages/books/search_book_page.dart';
 import 'package:track_it/util/localization.dart';

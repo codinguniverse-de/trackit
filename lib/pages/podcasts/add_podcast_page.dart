@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/api/schemes/podcast_scheme.dart';
+import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/pages/podcasts/podcast_detail_page.dart';
 import 'package:track_it/util/localization.dart';
@@ -96,7 +97,9 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
             ),
           ),
           title: Text(podcast.title),
-          trailing: IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          trailing: IconButton(icon: Icon(Icons.add), onPressed: () {
+            onItemAdd(podcast);
+          }),
           onTap: () => onItemTap(podcast),
         ),
         Divider(),
@@ -106,5 +109,10 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
 
   void onItemTap(PodcastScheme podcast) {
     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PodcastDetailPage(podcast)));
+  }
+
+  void onItemAdd(PodcastScheme scheme) {
+    var podcast = Podcast.fromScheme(scheme);
+    _model.addPodcast(podcast);
   }
 }

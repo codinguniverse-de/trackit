@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:track_it/data/book/book.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 
 class PodcastListItem extends StatelessWidget {
@@ -34,7 +33,6 @@ class PodcastListItem extends StatelessWidget {
         ListTile(
           leading: CircleAvatar(child: _buildImage()),
           title: Text(podcast.name),
-          subtitle: Text(podcast.author),
           onTap: onTap,
         ),
         Divider(),

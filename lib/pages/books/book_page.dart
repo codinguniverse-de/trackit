@@ -3,7 +3,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/common/book/price_tag.dart';
 import 'package:track_it/common/slider_input.dart';
 import 'package:track_it/data/book/book.dart';
-import 'package:track_it/model/books_model.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';

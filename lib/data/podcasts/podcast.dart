@@ -1,38 +1,58 @@
 
+import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast_episode.dart';
 
 final String tablePodcast = 'podcasts';
-final String _columnId = 'id';
+final String columnId = 'id';
 final String columnName = 'name';
-final String columnPodcastAuthor = 'author';
+final String columnDescription = 'description';
 final String columnPodcastImage = 'imageUrl';
+final String columnLastUpdate = 'lastpub';
+final String columnThumbUrl = 'thumburl';
+
 
 class Podcast {
   int id;
   String imageUrl;
   String name;
-  String author;
+  DateTime lastpub;
+  String description;
+  String thumbUrl;
 
   List<PodcastEpisode> episodes;
 
-  Podcast({this.id, this.name, this.author, this.episodes, this.imageUrl});
+
+  Podcast({this.id, this.imageUrl, this.name, this.lastpub, this.description,
+      this.thumbUrl, this.episodes});
 
   Map<String, dynamic> toMap() {
     var map = {
-      _columnId: id,
+      columnId: id,
       columnName: name,
-      columnPodcastAuthor: author,
+      columnLastUpdate: lastpub.millisecondsSinceEpoch,
       columnPodcastImage: imageUrl,
-      'episodes': episodes,
+      columnThumbUrl: thumbUrl,
+      columnDescription: description
     };
     return map;
   }
 
   Podcast.fromMap(Map<String, dynamic> map) {
-    id = map[_columnId];
+    id = map[columnId];
     name = map[columnName];
-    author = map[columnPodcastAuthor];
+    lastpub = DateTime.fromMillisecondsSinceEpoch(map[columnLastUpdate]);
+    thumbUrl = map[columnThumbUrl];
+    description = map[columnDescription];
     imageUrl = map[columnPodcastImage];
+  }
+
+  Podcast.fromScheme(PodcastScheme scheme) {
+    id = scheme.podcastId;
+    name = scheme.title;
+    lastpub = scheme.lastPub;
+    thumbUrl = scheme.thumbUrl;
+    description = scheme.description;
+    imageUrl = scheme.imageUrl;
   }
 
 }

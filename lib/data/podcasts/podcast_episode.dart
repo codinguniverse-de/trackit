@@ -7,6 +7,7 @@ final String columnEpisodeDescription = 'description';
 final String columnEpisodeLength = 'length';
 final String columnPublishDate = 'publishDate';
 
+
 class PodcastEpisode {
   int id;
   int podcastId;

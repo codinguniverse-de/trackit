@@ -4,10 +4,24 @@ import 'package:track_it/common/side_drawer.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 
-class PodcastsPage extends StatelessWidget {
+class PodcastsPage extends StatefulWidget {
   final MainModel model;
 
   PodcastsPage(this.model);
+
+  @override
+  State createState() {
+    return _PodcastsPageState();
+  }
+}
+
+class _PodcastsPageState extends State<PodcastsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    widget.model.fetchPodcasts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +34,7 @@ class PodcastsPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: _buildItem,
-        itemCount: model.podcasts.length,
+        itemCount: widget.model.podcasts.length,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -33,7 +47,7 @@ class PodcastsPage extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, int index) {
     return PodcastListItem(
-      podcast: model.podcasts[index],
+      podcast: widget.model.podcasts[index],
     );
   }
 }

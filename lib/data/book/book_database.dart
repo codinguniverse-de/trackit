@@ -3,7 +3,7 @@ import 'package:track_it/data/book/book.dart';
 import 'package:track_it/data/book/read_entry.dart';
 import 'package:track_it/data/timeseries_pages.dart';
 
-class DatabaseProvider {
+class BookDatabase {
   Database db;
 
   Future<Null> open(String path) async {
