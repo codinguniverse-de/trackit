@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         title: 'TrackIt',
         theme: ThemeData(
           primarySwatch: Colors.green,
+          brightness: Brightness.light,
         ),
         routes: {
           '/': (BuildContext context) => BooksPage(model),

@@ -18,10 +18,7 @@ class PriceTag extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
         child: Text(
           '${format(value)}€',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0
-          ),
+          style: Theme.of(context).accentTextTheme.button,
         ),
       ),
     );

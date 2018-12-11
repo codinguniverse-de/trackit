@@ -141,10 +141,7 @@ class _BookPageState extends State<BookPage> {
       padding: EdgeInsets.all(8.0),
       child: Text(
         widget.book.title,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-        ),
+        style: Theme.of(context).textTheme.title,
         textAlign: TextAlign.center,
       ),
     );
@@ -153,7 +150,7 @@ class _BookPageState extends State<BookPage> {
   Widget _buildAuthor() {
     return Text(
       widget.book.authors.join(','),
-      style: TextStyle(fontSize: 20.0, color: Colors.black54),
+      style: Theme.of(context).textTheme.subhead,
     );
   }
 
@@ -165,7 +162,7 @@ class _BookPageState extends State<BookPage> {
         padding: const EdgeInsets.only(top: 12.0),
         child: Text(
           Localization.of(context).publishedBy + widget.book.publisher,
-          style: TextStyle(fontSize: 20.0, color: Colors.black),
+          style: Theme.of(context).textTheme.body1,
           textAlign: TextAlign.center,
         ),
       );
@@ -178,6 +175,7 @@ class _BookPageState extends State<BookPage> {
         allowHalfRating: false,
         starCount: 5,
         size: 40.0,
+        color: Theme.of(context).accentColor,
         onRatingChanged: (value) {
           setState(() {
             _selectedRating = value;
