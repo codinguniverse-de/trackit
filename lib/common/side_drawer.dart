@@ -23,6 +23,7 @@ class SideDrawer extends StatelessWidget {
           SizedBox(
             height: 40.0,
           ),
+          Divider(),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text(Localization.of(context).settings),
