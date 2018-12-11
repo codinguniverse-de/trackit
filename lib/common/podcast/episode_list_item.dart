@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_it/data/podcasts/podcast_episode.dart';
+import 'package:track_it/util/time_formatter.dart';
 
 class EpisodeListItem extends StatelessWidget {
   final PodcastEpisode episode;
@@ -17,7 +18,7 @@ class EpisodeListItem extends StatelessWidget {
           title: Text(
             episode.title,
           ),
-          subtitle: Text(formatTime(episode.length)),
+          subtitle: Text(TimeFormatter().formatTime(episode.length)),
           trailing: buildIconButton(context),
         ),
         Divider(),
@@ -45,14 +46,5 @@ class EpisodeListItem extends StatelessWidget {
     );
   }
 
-  String formatTime(int seconds) {
-    double minutes = (seconds / 60);
-    double hours = (minutes / 60);
-    if (hours.floor() == 0) {
-      return '${minutes.toStringAsFixed(0)} Min.';
-    } else {
-      double mins = minutes % 60;
-      return '${hours.floor()} h ${mins.floor()} Min.';
-    }
-  }
+
 }
