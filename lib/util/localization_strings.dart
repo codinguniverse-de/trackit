@@ -39,7 +39,9 @@ const String AppTitle = 'app_title',
     TakeImage = 'take_image',
     RemoveImage = 'remove_image',
     Podcasts = 'podcasts',
-    AddPodcast = 'add_podcast';
+    AddPodcast = 'add_podcast',
+    Episodes = 'episodes',
+    Details = 'details';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -84,6 +86,8 @@ final de = {
   RemoveImage: 'Bild entfernen',
   Podcasts: 'Podcasts',
   AddPodcast: 'Podcast hinzufügen',
+  Episodes: 'Episoden',
+  Details: 'Detail'
 };
 
 final en = {
@@ -129,4 +133,6 @@ final en = {
   RemoveImage: 'Remove image',
   Podcasts: 'Podcasts',
   AddPodcast: 'Add Podcast',
+  Episodes: 'Episodes',
+  Details: 'Detail'
 };
