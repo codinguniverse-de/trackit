@@ -46,7 +46,6 @@ mixin BooksModel on Model {
 
   void fetchBooks() async {
     _isLoading = true;
-    await _provider.open('books.db');
     var books = await _provider.getAll();
     _isLoading = false;
     if (books != null) {

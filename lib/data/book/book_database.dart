@@ -6,7 +6,9 @@ import 'package:track_it/data/timeseries_pages.dart';
 class BookDatabase {
   Database db;
 
-  Future<Null> open(String path) async {
+  String path = 'books.db';
+
+  Future<Null> open() async {
     db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
@@ -32,16 +34,22 @@ class BookDatabase {
   }
 
   Future<Book> insert(Book book) async {
+    if (db == null || !db.isOpen)
+      await open();
     book.id = await db.insert(tableBook, book.toMap());
     return book;
   }
 
   Future<ReadEntry> addReadEntry(ReadEntry entry) async {
+    if (db == null || !db.isOpen)
+      await open();
     entry.id = await db.insert(tableReadEntry, entry.toMap());
     return entry;
   }
 
   Future<int> getSumForBook(int bookId) async {
+    if (db == null || !db.isOpen)
+      await open();
     List<Map> maps = await db.query(
       tableReadEntry,
       where: '$columnBookId = ?',
@@ -54,6 +62,8 @@ class BookDatabase {
   }
 
   Future<List<Book>> getAll() async {
+    if (db == null || !db.isOpen)
+      await open();
     List<Map> maps = await db.query(tableBook);
     if (maps != null) {
       List<Book> books = [];
@@ -66,6 +76,8 @@ class BookDatabase {
   }
 
   Future<Book> getBook(int id) async {
+    if (db == null || !db.isOpen)
+      await open();
     List<Map> maps =
         await db.query(tableBook, where: '$columnId = ?', whereArgs: [id]);
 
@@ -76,6 +88,8 @@ class BookDatabase {
   }
 
   Future<int> delete(int id) async {
+    if (db == null || !db.isOpen)
+      await open();
     return await db.delete(
       tableBook,
       where: '$columnId = ?',
@@ -84,6 +98,8 @@ class BookDatabase {
   }
 
   Future<int> update(Book book) async {
+    if (db == null || !db.isOpen)
+      await open();
     return await db.update(
       tableBook,
       book.toMap(),
@@ -95,11 +111,15 @@ class BookDatabase {
   Future close() async => db.close();
 
   Future<List<ReadEntry>> getAllEntries() async {
+    if (db == null || !db.isOpen)
+      await open();
     List<Map> maps = await db.query(tableReadEntry);
     return maps.map((m) => ReadEntry.fromMap(m)).toList();
   }
 
   Future<List<TimeSeriesPages>> getTimeSeriesPages(int numberOfDays) async {
+    if (db == null || !db.isOpen)
+      await open();
     DateTime today = DateTime.now();
     int millisPerDay = 86400000;
     int numberOfMillis = numberOfDays * millisPerDay;
@@ -141,6 +161,8 @@ class BookDatabase {
   }
 
   Future<double> getAveragePerDay(int days) async {
+    if (db == null || !db.isOpen)
+      await open();
     var timeSeries = await getTimeSeriesPages(days);
     double sum = 0;
     timeSeries.forEach((series) {
@@ -150,6 +172,8 @@ class BookDatabase {
   }
 
   Future<int> getTotalPages() async {
+    if (db == null || !db.isOpen)
+      await open();
     var values = await db.query(tableReadEntry, columns: [columnPagesRead]);
 
     int sum = 0;
@@ -160,6 +184,8 @@ class BookDatabase {
   }
 
   Future<double> getTotalPrice() async {
+    if (db == null || !db.isOpen)
+      await open();
     var values = await db.query(tableBook, columns: [columnPrice]);
     double sum = 0;
     values.map((m) => m[columnPrice]).forEach((price) => sum += price);
