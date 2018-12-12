@@ -49,6 +49,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               totalPages: _totalPages,
               averagePages: _averagePages,
               totalPrice: _totalPrice,
+              amountBooks: widget.model.books.length,
             ),
             Card(
               child: Padding(

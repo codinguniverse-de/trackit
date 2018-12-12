@@ -27,7 +27,6 @@ const String AppTitle = 'app_title',
     FetchBooksFailed = 'fetch_books_failed',
     NoResults = 'no_results',
     Search = 'search',
-    GeneralData = 'general_data',
     TotalPages = 'total_pages',
     TotalPrice = 'total_price',
     AveragePages = 'average_pages',
@@ -42,7 +41,8 @@ const String AppTitle = 'app_title',
     AddPodcast = 'add_podcast',
     Episodes = 'episodes',
     Details = 'details',
-    StartPage = 'start_page';
+    StartPage = 'start_page',
+    AmountBooks = 'amount_books';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -69,15 +69,14 @@ final de = {
   Export: 'Daten exportieren',
   ExportSuccess: 'Daten wurden exportiert',
   EditProgress: 'Fortschritt anpassen',
-  PagesPerDay: 'Seiten pro Tag',
+  PagesPerDay: 'Historie',
   Days: 'Tage',
   FetchBooksFailed: 'Fehler bei der Websuche',
   NoResults: 'Keine Ergebnisse',
   Search: 'Suche',
-  GeneralData: 'Allgemeine Daten',
-  TotalPages: 'Seiten gesamt: ',
-  TotalPrice: 'Gesamtpreis: ',
-  AveragePages: 'Tagesdurchschnitt: ',
+  TotalPages: 'Seiten gesamt:',
+  TotalPrice: 'Gesamtpreis',
+  AveragePages: 'Tagesdurchschnitt',
   All: 'Alle',
   CurrentlyReading: 'Am Lesen',
   Finished: 'Beendet',
@@ -89,7 +88,8 @@ final de = {
   AddPodcast: 'Podcast hinzufügen',
   Episodes: 'Episoden',
   Details: 'Detail',
-  StartPage: 'Startseite'
+  StartPage: 'Startseite',
+  AmountBooks: 'Anzahl Bücher',
 };
 
 final en = {
@@ -117,15 +117,14 @@ final en = {
   Export: 'Export data',
   ExportSuccess: 'Data exported successfully',
   EditProgress: 'Edit progress',
-  PagesPerDay: 'Pages per day',
+  PagesPerDay: 'History',
   Days: 'days',
   FetchBooksFailed: 'Error while fetching data',
   NoResults: 'No Results',
   Search: 'Search',
-  GeneralData: 'General data',
-  TotalPages: 'Total pages: ',
-  TotalPrice: 'Total price: ',
-  AveragePages: 'Average pages per day: ',
+  TotalPages: 'Total pages',
+  TotalPrice: 'Total price',
+  AveragePages: 'Average pages per day',
   All: 'All',
   CurrentlyReading: 'Currently reading',
   Finished: 'Finished',
@@ -137,5 +136,7 @@ final en = {
   AddPodcast: 'Add Podcast',
   Episodes: 'Episodes',
   Details: 'Detail',
-  StartPage: 'Initial page'
+  StartPage: 'Initial page',
+  AmountBooks: 'Number of books',
+
 };

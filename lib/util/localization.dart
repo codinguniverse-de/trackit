@@ -11,6 +11,7 @@ class Localization {
 
 
 
+
   static Localization of(BuildContext context) {
     return Localizations.of<Localization>(context, Localization);
   }
@@ -22,6 +23,7 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get amountBooks => _getValue(AmountBooks);
   String get startPage => _getValue(StartPage);
   String get episodes => _getValue(Episodes);
   String get details => _getValue(Details);
@@ -37,7 +39,6 @@ class Localization {
   String get averagePages => _getValue(AveragePages);
   String get totalPages => _getValue(TotalPages);
   String get totalPrice => _getValue(TotalPrice);
-  String get generalData => _getValue(GeneralData);
   String get search => _getValue(Search);
   String get noResults => _getValue(NoResults);
   String get fetchBooksFailed => _getValue(FetchBooksFailed);
