@@ -19,16 +19,17 @@ class StatisticsPage extends StatelessWidget {
             drawer: SideDrawer(),
             appBar: AppBar(
               title: Text(Localization.of(context).statistics),
-              actions: <Widget>[
-                DropdownButton<int>(
-                  style: Theme.of(context).accentTextTheme.title,
-                  items: _buildDropDownItems(context),
-                  onChanged: (value) {
-                    model.statisticsDays = value;
-                  },
-                  value: model.statisticsDays,
-                ),
-              ],
+//              actions: <Widget>[
+//                DropdownButton<int>(
+//                  style: Theme.of(context).accentTextTheme.title,
+//
+//                  items: _buildDropDownItems(context),
+//                  onChanged: (value) {
+//                    model.statisticsDays = value;
+//                  },
+//                  value: model.statisticsDays,
+//                ),
+//              ],
               bottom: TabBar(
                 tabs: [
                   Tab(
@@ -53,25 +54,24 @@ class StatisticsPage extends StatelessWidget {
   }
 
   List<DropdownMenuItem<int>> _buildDropDownItems(BuildContext context) {
+    var paint = Paint();
+    paint.color = Theme.of(context).primaryColorDark;
     return [
       DropdownMenuItem<int>(
         child: Text(
           '7' + ' ' + Localization.of(context).days,
-          style: Theme.of(context).textTheme.title,
         ),
         value: 7,
       ),
       DropdownMenuItem<int>(
         child: Text(
           '30' + ' ' + Localization.of(context).days,
-          style: Theme.of(context).textTheme.title,
         ),
         value: 30,
       ),
       DropdownMenuItem<int>(
         child: Text(
           '365' + ' ' + Localization.of(context).days,
-          style: Theme.of(context).textTheme.title,
         ),
         value: 365,
       ),
