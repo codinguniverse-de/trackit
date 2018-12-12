@@ -50,6 +50,9 @@ class PodcastDatabase {
       for (var podcast in podcasts) {
         var episodes = await getPodcastEpisodes(podcast.id);
         podcast.episodes.addAll(episodes);
+        if (podcast.episodes != null && podcast.episodes.length > 0) {
+          podcast.lastpub = podcast.episodes[0].publishedAt;
+        }
       }
       return podcasts;
     }

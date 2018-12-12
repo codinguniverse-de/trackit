@@ -12,6 +12,7 @@ class Localization {
 
 
 
+
   static Localization of(BuildContext context) {
     return Localizations.of<Localization>(context, Localization);
   }
@@ -23,12 +24,13 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
-  String get minutes => 'min';
-  String get hours => 'h';
-  String get amountEpisodes => 'Anzahl Episoden';
-  String get averageTime => 'Tagesdurchschnitt';
-  String get amountPodcasts => 'Anzahl Podcasts';
-  String get totalTime => 'Gesamtzeit';
+  String get lastUpdate => _getValue(LastUpdate);
+  String get minutes => _getValue(Minutes);
+  String get hours => _getValue(Hours);
+  String get amountEpisodes => _getValue(AmountEpisodes);
+  String get averageTime => _getValue(AverageTime);
+  String get amountPodcasts => _getValue(AmountPodcasts);
+  String get totalTime => _getValue(TotalTime);
   String get amountBooks => _getValue(AmountBooks);
   String get startPage => _getValue(StartPage);
   String get episodes => _getValue(Episodes);

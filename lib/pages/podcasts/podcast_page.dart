@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/common/podcast/episode_list_item.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
-import 'package:track_it/data/podcasts/podcast_episode.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/pages/podcasts/podcast_episodes_list.dart';
 import 'package:track_it/util/localization.dart';
-import 'package:track_it/util/time_formatter.dart';
 
 class PodcastPage extends StatelessWidget {
   final Podcast podcast;

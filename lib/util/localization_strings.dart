@@ -42,7 +42,14 @@ const String AppTitle = 'app_title',
     Episodes = 'episodes',
     Details = 'details',
     StartPage = 'start_page',
-    AmountBooks = 'amount_books';
+    AmountBooks = 'amount_books',
+    LastUpdate = 'last_update',
+    Minutes = 'minutes',
+    Hours = 'hours',
+    AmountEpisodes = 'amount_episodes',
+    AmountPodcasts = 'amount_podcasts',
+    AverageTime = 'average_time',
+    TotalTime = 'total_time';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -90,6 +97,13 @@ final de = {
   Details: 'Detail',
   StartPage: 'Startseite',
   AmountBooks: 'Gelesene Bücher',
+  LastUpdate: 'Letztes Update: ',
+  Minutes: 'Minuten',
+  Hours: 'Stunden',
+  AmountEpisodes: 'Gehörte Episoden',
+  AmountPodcasts: 'Gehörte Podcasts',
+  TotalTime: 'Gesamtzeit',
+  AverageTime: 'Tagesdurchschnitt',
 };
 
 final en = {
@@ -138,5 +152,12 @@ final en = {
   Details: 'Detail',
   StartPage: 'Initial page',
   AmountBooks: 'Read books',
-
+  LastUpdate: 'Last update: ',
+  Minutes: 'minutes',
+  Hours: 'hours',
+  AmountEpisodes: 'Listened episodes',
+  AmountPodcasts: 'Listened podcasts',
+  AverageTime: 'Average time',
+  TotalTime: 'Total time',
 };
+
