@@ -39,7 +39,7 @@ mixin PodcastModel on Model {
     notifyListeners();
   }
 
-  void addPodcast(Podcast podcast) async {
+  Future addPodcast(Podcast podcast) async {
     var schemeToAdd = searchResults.firstWhere((scheme) => scheme.podcastId == podcast.id);
     schemeToAdd.loadingAdd = true;
     notifyListeners();
@@ -76,5 +76,11 @@ mixin PodcastModel on Model {
 
   Future<List<PodcastEpisode>> getAllEpisodesListened() async {
     return await _database.getAllEpisodesListened();
+  }
+
+  Future deletePodcast(int id) async {
+    await _database.deletePodcast(id);
+    podcasts.removeWhere((p) => p.id == id);
+    notifyListeners();
   }
 }

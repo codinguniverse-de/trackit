@@ -166,4 +166,11 @@ class PodcastDatabase {
     List<PodcastEpisode> episodes = maps.map((map) => PodcastEpisode.fromMap(map)).toList();
     return episodes;
   }
+
+  Future deletePodcast(int id) async {
+    if (db == null || !db.isOpen)
+      await open();
+    await db.delete(tablePodcast, where: '$columnId = ?', whereArgs: [id]);
+    await db.delete(tableEpisode, where: '$columnPodcastId = ?', whereArgs: [id]);
+  }
 }

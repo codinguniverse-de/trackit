@@ -49,7 +49,8 @@ const String AppTitle = 'app_title',
     AmountEpisodes = 'amount_episodes',
     AmountPodcasts = 'amount_podcasts',
     AverageTime = 'average_time',
-    TotalTime = 'total_time';
+    TotalTime = 'total_time',
+    PodcastAdded = 'podcast_added';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -104,6 +105,7 @@ final de = {
   AmountPodcasts: 'Gehörte Podcasts',
   TotalTime: 'Gesamtzeit',
   AverageTime: 'Tagesdurchschnitt',
+  PodcastAdded: 'Podcast hinzugefügt',
 };
 
 final en = {
@@ -159,5 +161,6 @@ final en = {
   AmountPodcasts: 'Listened podcasts',
   AverageTime: 'Average time',
   TotalTime: 'Total time',
+  PodcastAdded: 'Podcast added',
 };
 

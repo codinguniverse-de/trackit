@@ -35,6 +35,24 @@ class PodcastPage extends StatelessWidget {
                         text: Localization.of(context).episodes,
                       ),
                     ]),
+                    actions: <Widget>[
+                      PopupMenuButton<Action>(
+                        onSelected: (Action choice) {
+                          switch (choice) {
+                            case Action.DELETE:
+                              model.deletePodcast(podcast.id);
+                              Navigator.of(context).pop();
+                              break;
+                            default:
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<Action>>[
+                          PopupMenuItem<Action>(
+                              child: Text(Localization.of(context).delete),
+                              value: Action.DELETE),
+                        ],
+                      )
+                    ],
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
                       background:
@@ -72,4 +90,8 @@ class PodcastPage extends StatelessWidget {
       },
     );
   }
+}
+
+enum Action {
+  DELETE
 }
