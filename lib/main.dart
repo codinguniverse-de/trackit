@@ -25,11 +25,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final model = MainModel();
   Brightness _theme = Brightness.light;
+  Widget _startPage;
 
   @override
   void initState() {
     super.initState();
-
+    getStartPage();
     getTheme();
   }
 
@@ -53,12 +54,14 @@ class _MyAppState extends State<MyApp> {
           brightness: _theme,
         ),
         routes: {
-          '/': (BuildContext context) => BooksPage(model),
+          '/': (BuildContext context) => _startPage,
+          '/books': (BuildContext context) => BooksPage(model),
           '/create': (BuildContext context) => EditBookPage(),
           '/podcasts': (BuildContext context) => PodcastsPage(model),
           '/addpodcast': (BuildContext context) => AddPodcastPage(),
           '/settings': (BuildContext context) => SettingsPage(
                 themeChanged: themeChanged,
+                startPageChanged: startpageChanged,
               ),
           '/statistics': (BuildContext context) => StatisticsPage(model),
         },
@@ -125,5 +128,47 @@ class _MyAppState extends State<MyApp> {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('theme', value);
+  }
+
+  void startpageChanged(StartPage startPage) async {
+    model.startPage = startPage;
+    String value = 'books';
+    switch (startPage) {
+      case StartPage.BOOKS:
+        value = 'books';
+        setState(() {
+          _startPage = BooksPage(model);
+        });
+        break;
+      case StartPage.PODCASTS:
+        value = 'podcasts';
+        setState(() {
+          _startPage = PodcastsPage(model);
+        });
+        break;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('startpage', value);
+  }
+
+  void getStartPage() async {
+    _startPage = BooksPage(model);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String startPage = prefs.getString('startpage') ?? 'books';
+
+    switch (startPage) {
+      case 'books':
+        setState(() {
+          _startPage = BooksPage(model);
+        });
+        model.startPage = StartPage.BOOKS;
+        break;
+      case 'podcasts':
+        setState(() {
+          _startPage = PodcastsPage(model);
+        });
+        model.startPage = StartPage.PODCASTS;
+        break;
+    }
   }
 }

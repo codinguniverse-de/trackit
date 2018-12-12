@@ -253,7 +253,7 @@ class _EditBookPageState extends State<EditBookPage> {
       book.id = widget.editBook.id;
       model.updateBook(book);
     }
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed('/books');
   }
 
   Widget buildImageContainer(BuildContext context) {

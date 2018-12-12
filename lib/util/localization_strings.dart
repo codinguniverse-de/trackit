@@ -41,7 +41,8 @@ const String AppTitle = 'app_title',
     Podcasts = 'podcasts',
     AddPodcast = 'add_podcast',
     Episodes = 'episodes',
-    Details = 'details';
+    Details = 'details',
+    StartPage = 'start_page';
 
 final de = {
   AppTitle: 'TrackIt',
@@ -87,7 +88,8 @@ final de = {
   Podcasts: 'Podcasts',
   AddPodcast: 'Podcast hinzufügen',
   Episodes: 'Episoden',
-  Details: 'Detail'
+  Details: 'Detail',
+  StartPage: 'Startseite'
 };
 
 final en = {
@@ -134,5 +136,6 @@ final en = {
   Podcasts: 'Podcasts',
   AddPodcast: 'Add Podcast',
   Episodes: 'Episodes',
-  Details: 'Detail'
+  Details: 'Detail',
+  StartPage: 'Initial page'
 };

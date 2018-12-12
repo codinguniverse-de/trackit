@@ -13,7 +13,7 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.book),
             title: Text(Localization.of(context).booksDrawerItem),
-            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+            onTap: () => Navigator.of(context).pushReplacementNamed('/books'),
           ),
           ListTile(
             leading: Icon(Icons.headset),
