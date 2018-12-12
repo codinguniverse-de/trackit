@@ -9,6 +9,7 @@ final String columnEpisodeDescription = 'description';
 final String columnEpisodeLength = 'length';
 final String columnPublishDate = 'publishDate';
 final String columnListened = 'listened';
+final String columnListenedAt = 'listenedAt';
 
 
 class PodcastEpisode {
@@ -19,6 +20,7 @@ class PodcastEpisode {
   int length;
   bool listened;
   DateTime publishedAt;
+  DateTime listenedAt;
 
   PodcastEpisode({
     this.podcastId,
@@ -27,6 +29,7 @@ class PodcastEpisode {
     this.length,
     this.publishedAt,
     this.listened,
+    this.listenedAt
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +41,7 @@ class PodcastEpisode {
       columnEpisodeLength: length,
       columnPublishDate: publishedAt.millisecondsSinceEpoch,
       columnListened: listened ? 1 : 0,
+      columnListenedAt: listenedAt == null ? null : listenedAt.millisecondsSinceEpoch
     };
     return map;
   }
@@ -50,6 +54,7 @@ class PodcastEpisode {
     length = map[columnEpisodeLength];
     publishedAt = DateTime.fromMillisecondsSinceEpoch(map[columnPublishDate]);
     listened = map[columnListened] == 1;
+    listenedAt = map[columnListenedAt] == null ? null : DateTime.fromMillisecondsSinceEpoch(map[columnListenedAt]);
   }
 
   PodcastEpisode.fromScheme(EpisodeScheme scheme) {
@@ -60,5 +65,6 @@ class PodcastEpisode {
     length = scheme.length;
     publishedAt = scheme.pubDate;
     listened = false;
+    listenedAt = null;
   }
 }

@@ -89,7 +89,7 @@ final de = {
   Episodes: 'Episoden',
   Details: 'Detail',
   StartPage: 'Startseite',
-  AmountBooks: 'Anzahl Bücher',
+  AmountBooks: 'Gelesene Bücher',
 };
 
 final en = {
@@ -137,6 +137,6 @@ final en = {
   Episodes: 'Episodes',
   Details: 'Detail',
   StartPage: 'Initial page',
-  AmountBooks: 'Number of books',
+  AmountBooks: 'Read books',
 
 };

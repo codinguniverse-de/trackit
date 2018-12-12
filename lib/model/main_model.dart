@@ -21,4 +21,12 @@ class MainModel extends Model with BooksModel, PodcastModel {
     _startPage = page;
     notifyListeners();
   }
+
+  int _statisticsDays = 30;
+  set statisticsDays(int days) {
+    _statisticsDays = days;
+    notifyListeners();
+  }
+
+  int get statisticsDays => _statisticsDays;
 }

@@ -23,6 +23,12 @@ class Localization {
 
   _getValue(String key) => _localizedValues[locale.languageCode][key];
 
+  String get minutes => 'min';
+  String get hours => 'h';
+  String get amountEpisodes => 'Anzahl Episoden';
+  String get averageTime => 'Tagesdurchschnitt';
+  String get amountPodcasts => 'Anzahl Podcasts';
+  String get totalTime => 'Gesamtzeit';
   String get amountBooks => _getValue(AmountBooks);
   String get startPage => _getValue(StartPage);
   String get episodes => _getValue(Episodes);

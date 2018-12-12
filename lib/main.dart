@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
                 themeChanged: themeChanged,
                 startPageChanged: startpageChanged,
               ),
-          '/statistics': (BuildContext context) => StatisticsPage(model),
+          '/statistics': (BuildContext context) => StatisticsPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final List<String> pathElements = settings.name.split('/');

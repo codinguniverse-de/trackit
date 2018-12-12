@@ -53,7 +53,7 @@ class PodcastEpisodesList extends StatelessWidget {
                       style: Theme.of(context).textTheme.caption,
                     ),
                     Text(
-                      TimeFormatter().formatTime(episode.length),
+                      TimeFormatter().formatTime(context, episode.length),
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ],

@@ -18,7 +18,7 @@ class EpisodeListItem extends StatelessWidget {
           title: Text(
             episode.title,
           ),
-          subtitle: Text(TimeFormatter().formatTime(episode.length)),
+          subtitle: Text(TimeFormatter().formatTime(context, episode.length)),
           trailing: buildIconButton(context),
         ),
         Divider(),

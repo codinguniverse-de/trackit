@@ -7,6 +7,7 @@ import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/data/podcasts/podcast_database.dart';
 import 'package:track_it/data/podcasts/podcast_episode.dart';
+import 'package:track_it/data/timeseries_minutes.dart';
 
 mixin PodcastModel on Model {
   bool podcastsLoading = false;
@@ -33,9 +34,7 @@ mixin PodcastModel on Model {
   void fetchPodcasts() async {
     podcastsLoading = true;
     notifyListeners();
-    await _database.open('podcasts.db');
     podcasts = await _database.getPodcasts();
-    print(podcasts);
     podcastsLoading = false;
     notifyListeners();
   }
@@ -62,7 +61,20 @@ mixin PodcastModel on Model {
 
   void toggleListened(PodcastEpisode episode) async {
     episode.listened = !episode.listened;
+    episode.listenedAt = episode.listened ? DateTime.now() : null;
     notifyListeners();
     await _database.updateEpisode(episode);
+  }
+
+  Future<List<TimeSeriesMinutes>> getTimeSeriesMinutes(int days) async {
+    return await _database.getTimeSeriesMinutes(days);
+  }
+
+  Future<int> getTotalTime() async {
+    return await _database.getTotalTimeListened();
+  }
+
+  Future<List<PodcastEpisode>> getAllEpisodesListened() async {
+    return await _database.getAllEpisodesListened();
   }
 }

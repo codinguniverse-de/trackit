@@ -34,10 +34,7 @@ class _PodcastsPageState extends State<PodcastsPage> {
             Localization.of(context).podcasts,
           ),
         ),
-        body: ListView.builder(
-          itemBuilder: _buildItem,
-          itemCount: model.podcasts.length,
-        ),
+        body: buildListView(model),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -46,6 +43,19 @@ class _PodcastsPageState extends State<PodcastsPage> {
         ),
       );
     });
+  }
+
+  Widget buildListView(MainModel model) {
+    if (model.podcastsLoading)
+      return Center(child: CircularProgressIndicator(),);
+
+    if (model.podcasts.length == 0)
+      return Center(child: Text(Localization.of(context).addPodcast));
+
+    return ListView.builder(
+        itemBuilder: _buildItem,
+        itemCount: model.podcasts.length,
+      );
   }
 
   Widget _buildItem(BuildContext context, int index) {
