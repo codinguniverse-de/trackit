@@ -15,11 +15,6 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       drawer: SideDrawer(),
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/books');
-            }),
         title: Text(Localization.of(context).settings),
       ),
       body: ScopedModelDescendant<MainModel>(builder: (context, widget, model) {
