@@ -173,4 +173,11 @@ class PodcastDatabase {
     await db.delete(tablePodcast, where: '$columnId = ?', whereArgs: [id]);
     await db.delete(tableEpisode, where: '$columnPodcastId = ?', whereArgs: [id]);
   }
+
+  Future<bool> hasEpisode(int episodeId) async {
+    if (db == null || !db.isOpen)
+      await open();
+    List<Map> maps = await db.query(tableEpisode, where: '$columnId = ?', whereArgs: [episodeId]);
+    return maps != null && maps.length > 0;
+  }
 }

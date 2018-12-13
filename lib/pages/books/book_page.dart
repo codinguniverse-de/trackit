@@ -38,34 +38,7 @@ class _BookPageState extends State<BookPage> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(builder: (context, _, model) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.book.title),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/edit/${widget.book.id}');
-              },
-            ),
-            PopupMenuButton<Choice>(
-              onSelected: (Choice choice) {
-                switch (choice) {
-                  case Choice.delete:
-                    model.deleteBook(widget.book.id);
-                    Navigator.of(context).pop();
-                    break;
-                  default:
-                }
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
-                    PopupMenuItem<Choice>(
-                        child: Text(Localization.of(context).delete),
-                        value: Choice.delete),
-                  ],
-            )
-          ],
-        ),
+        appBar: buildAppBar(context, model),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -97,6 +70,37 @@ class _BookPageState extends State<BookPage> {
         ),
       );
     });
+  }
+
+  AppBar buildAppBar(BuildContext context, MainModel model) {
+    return AppBar(
+        title: Text(widget.book.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.of(context)
+                  .pushReplacementNamed('/edit/${widget.book.id}');
+            },
+          ),
+          PopupMenuButton<Choice>(
+            onSelected: (Choice choice) {
+              switch (choice) {
+                case Choice.delete:
+                  model.deleteBook(widget.book.id);
+                  Navigator.of(context).pop();
+                  break;
+                default:
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
+                  PopupMenuItem<Choice>(
+                      child: Text(Localization.of(context).delete),
+                      value: Choice.delete),
+                ],
+          )
+        ],
+      );
   }
 
   Row buildProgressIndicator(MainModel model) {

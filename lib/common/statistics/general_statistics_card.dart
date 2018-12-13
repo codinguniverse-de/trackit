@@ -37,7 +37,7 @@ class GeneralStatisticsCard extends StatelessWidget {
                         totalPages.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ],
@@ -52,7 +52,7 @@ class GeneralStatisticsCard extends StatelessWidget {
                         averagePages.toStringAsFixed(2),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ],
@@ -73,7 +73,7 @@ class GeneralStatisticsCard extends StatelessWidget {
                         totalPrice.toStringAsFixed(2) + ' €',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ],
@@ -88,7 +88,7 @@ class GeneralStatisticsCard extends StatelessWidget {
                         amountBooks.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontSize: 26.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ],

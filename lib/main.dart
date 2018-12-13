@@ -31,6 +31,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getStartPage();
+    updateEpisodes();
     getTheme();
   }
 
@@ -170,5 +171,9 @@ class _MyAppState extends State<MyApp> {
         model.startPage = StartPage.PODCASTS;
         break;
     }
+  }
+
+  void updateEpisodes() {
+    model.updateEpisodes();
   }
 }

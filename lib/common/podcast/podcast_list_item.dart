@@ -38,6 +38,7 @@ class PodcastListItem extends StatelessWidget {
           leading: CircleAvatar(child: _buildImage()),
           title: Text(podcast.name),
           subtitle: Text(Localization.of(context).lastUpdate + format.format(podcast.lastpub)),
+          trailing: podcast.hasNewEpisode ? Icon(Icons.fiber_new) : null,
           onTap: onTap,
         ),
         Divider(),

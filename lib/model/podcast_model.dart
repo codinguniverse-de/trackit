@@ -31,7 +31,7 @@ mixin PodcastModel on Model {
     notifyListeners();
   }
 
-  void fetchPodcasts() async {
+  Future fetchPodcasts() async {
     podcastsLoading = true;
     notifyListeners();
     podcasts = await _database.getPodcasts();
@@ -82,5 +82,25 @@ mixin PodcastModel on Model {
     await _database.deletePodcast(id);
     podcasts.removeWhere((p) => p.id == id);
     notifyListeners();
+  }
+
+
+  Future updateEpisodes() async {
+    await fetchPodcasts();
+    for(var podcast in podcasts) {
+      var response = await _api.getEpisodes(podcast.id);
+      if (response.result == Result.SUCCESS) {
+        var episodes = response.data;
+        for(var scheme in episodes) {
+          if (! await _database.hasEpisode(scheme.id)) {
+            var episode = PodcastEpisode.fromScheme(scheme);
+            _database.insertEpisode(episode);
+            podcast.episodes.insert(0, episode);
+            podcast.hasNewEpisode = true;
+          }
+        }
+
+      }
+    }
   }
 }

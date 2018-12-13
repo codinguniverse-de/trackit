@@ -18,6 +18,7 @@ class Podcast {
   DateTime lastpub;
   String description;
   String thumbUrl;
+  bool hasNewEpisode = false;
 
   List<PodcastEpisode> episodes = [];
 

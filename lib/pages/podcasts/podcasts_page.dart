@@ -63,6 +63,7 @@ class _PodcastsPageState extends State<PodcastsPage> {
     return PodcastListItem(
       podcast: podcast,
       onTap: () {
+        podcast.hasNewEpisode = false;
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PodcastPage(podcast),
