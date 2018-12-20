@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
     return ScopedModel<MainModel>(
       model: model,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: [
           LocalizationDelegate(),
           GlobalMaterialLocalizations.delegate,

@@ -13,7 +13,6 @@ class BookListItem extends StatelessWidget {
   });
 
   Widget _buildImage() {
-    print(book.imageUrl);
     return Container(
       height: 40.0,
       width: 40.0,

@@ -38,29 +38,79 @@ class _BookPageState extends State<BookPage> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(builder: (context, _, model) {
       return Scaffold(
-        appBar: buildAppBar(context, model),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _buildImage(),
-                buildProgressIndicator(model),
-                _buildTitle(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _buildAuthor(),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    PriceTag(value: widget.book.price),
-                  ],
+        //appBar: buildAppBar(context, model),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                expandedHeight: 250.0,
+                floating: false,
+                pinned: true,
+                title: Text(widget.book.title),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/edit/${widget.book.id}');
+                    },
+                  ),
+                  PopupMenuButton<Choice>(
+                    onSelected: (Choice choice) {
+                      switch (choice) {
+                        case Choice.delete:
+                          model.deleteBook(widget.book.id);
+                          Navigator.of(context).pop();
+                          break;
+                        default:
+                      }
+                    },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<Choice>>[
+                          PopupMenuItem<Choice>(
+                              child: Text(Localization.of(context).delete),
+                              value: Choice.delete),
+                        ],
+                  )
+                ],
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  background: widget.book.imageUrl == null ||
+                          widget.book.imageUrl.isEmpty
+                      ? Image.asset(
+                          'assets/book_icon.png',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          File(widget.book.imageUrl),
+                          fit: BoxFit.cover,
+                        ),
                 ),
-                _buildPublisher(context),
-                _buildRatingBar(model),
-              ],
+              )
+            ];
+          },
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  buildProgressIndicator(model),
+                  _buildTitle(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _buildAuthor(),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      PriceTag(value: widget.book.price),
+                    ],
+                  ),
+                  _buildPublisher(context),
+                  _buildRatingBar(model),
+                ],
+              ),
             ),
           ),
         ),
@@ -71,36 +121,39 @@ class _BookPageState extends State<BookPage> {
       );
     });
   }
+  /*
+
+   */
 
   AppBar buildAppBar(BuildContext context, MainModel model) {
     return AppBar(
-        title: Text(widget.book.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed('/edit/${widget.book.id}');
-            },
-          ),
-          PopupMenuButton<Choice>(
-            onSelected: (Choice choice) {
-              switch (choice) {
-                case Choice.delete:
-                  model.deleteBook(widget.book.id);
-                  Navigator.of(context).pop();
-                  break;
-                default:
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
-                  PopupMenuItem<Choice>(
-                      child: Text(Localization.of(context).delete),
-                      value: Choice.delete),
-                ],
-          )
-        ],
-      );
+      title: Text(widget.book.title),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.of(context)
+                .pushReplacementNamed('/edit/${widget.book.id}');
+          },
+        ),
+        PopupMenuButton<Choice>(
+          onSelected: (Choice choice) {
+            switch (choice) {
+              case Choice.delete:
+                model.deleteBook(widget.book.id);
+                Navigator.of(context).pop();
+                break;
+              default:
+            }
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<Choice>>[
+                PopupMenuItem<Choice>(
+                    child: Text(Localization.of(context).delete),
+                    value: Choice.delete),
+              ],
+        )
+      ],
+    );
   }
 
   Row buildProgressIndicator(MainModel model) {
@@ -123,30 +176,6 @@ class _BookPageState extends State<BookPage> {
         ),
       ],
     );
-  }
-
-  Widget _buildImage() {
-    if (widget.book.imageUrl == null || widget.book.imageUrl.isEmpty) {
-      return Image.asset(
-        'assets/book_icon.png',
-        fit: BoxFit.fitWidth,
-        width: 160.0,
-        height: 160.0,
-      );
-    } else {
-      return Container(
-          width: 160.0,
-          height: 160.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(80.0),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: FileImage(
-                File(widget.book.imageUrl),
-              ),
-            ),
-          ));
-    }
   }
 
   Widget _buildTitle() {
