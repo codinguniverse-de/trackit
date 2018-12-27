@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/book/book.dart';
 import 'package:track_it/model/main_model.dart';
@@ -13,7 +14,18 @@ import 'package:track_it/pages/statistics_page.dart';
 import 'package:track_it/util/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  ValueNotifier<Client> client = ValueNotifier(
+    Client(
+      endPoint: 'https://fierce-temple-97977.herokuapp.com/',
+      cache: InMemoryCache(),
+    ),
+  );
+  runApp(GraphqlProvider(
+    client: client,
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatefulWidget {
   @override

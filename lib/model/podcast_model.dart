@@ -2,7 +2,6 @@
 import 'package:scoped_model/scoped_model.dart';
 import 'package:track_it/data/api/backend_response.dart';
 import 'package:track_it/data/api/podcasts_api.dart';
-import 'package:track_it/data/api/schemes/episode_scheme.dart';
 import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/data/podcasts/podcast_database.dart';

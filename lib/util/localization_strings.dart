@@ -50,6 +50,7 @@ const String AppTitle = 'app_title',
     AmountPodcasts = 'amount_podcasts',
     AverageTime = 'average_time',
     TotalTime = 'total_time',
+    StartTyping = 'start_typing',
     PodcastAdded = 'podcast_added';
 
 final de = {
@@ -106,6 +107,7 @@ final de = {
   TotalTime: 'Gesamtzeit',
   AverageTime: 'Tagesdurchschnitt',
   PodcastAdded: 'Podcast hinzugefügt',
+  StartTyping: 'Gib etwas ein',
 };
 
 final en = {
@@ -162,5 +164,6 @@ final en = {
   AverageTime: 'Average time',
   TotalTime: 'Total time',
   PodcastAdded: 'Podcast added',
+  StartTyping: 'Start typing',
 };
 

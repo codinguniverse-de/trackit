@@ -112,16 +112,17 @@ class _EditBookPageState extends State<EditBookPage> {
           child: Icon(Icons.search),
           onPressed: () {
             Navigator.of(context).push(
-                MaterialPageRoute<BookScheme>(builder: (BuildContext context) {
+                MaterialPageRoute<BookSchemeGraphQL>(builder: (BuildContext context) {
               return SearchBookPage();
             })).then((book) {
               if (book != null) {
                 setState(() {
-                  _titleController.text = book.title;
+                  _titleController.text = book.volumeInfo.title;
                   _authorController.text =
-                      book.authors != null ? book.authors[0] : '';
-                  _publisherController.text = book.publisher;
-                  _pagesController.text = book.pageCount.toString();
+                      book.volumeInfo.authors != null ? book.volumeInfo.authors[0] : '';
+                  _publisherController.text = book.volumeInfo.publisher;
+                  _pagesController.text = book.volumeInfo.pageCount.toString();
+                  _priceController.text = book.saleInfo.listPrice != null ? book.saleInfo.listPrice.amount.toString() : 0.00.toString();
                 });
               }
             });

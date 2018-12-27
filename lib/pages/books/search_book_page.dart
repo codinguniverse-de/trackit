@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:track_it/data/api/backend_response.dart';
-import 'package:track_it/data/api/books_api.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:track_it/data/api/schemes/book_scheme.dart';
 import 'package:track_it/util/localization.dart';
 
@@ -13,8 +12,7 @@ class SearchBookPage extends StatefulWidget {
 
 class _SearchBookPageState extends State<SearchBookPage> {
   String _searchString = '';
-  List<BookScheme> _results;
-  bool _loading = false;
+  List<BookSchemeGraphQL> _results = List();
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +27,18 @@ class _SearchBookPageState extends State<SearchBookPage> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Expanded(child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        _searchString = value;
-                      });
-                    },
-                    onSubmitted: (_) {
-                      startSearch();
-                    },
-                  )),
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () async {
-                      startSearch();
-                    },
-                  )
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: Localization.of(context).startTyping
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchString = value;
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -57,35 +51,64 @@ class _SearchBookPageState extends State<SearchBookPage> {
     );
   }
 
-  Future startSearch() async {
-    FocusScope.of(context).requestFocus(new FocusNode());
-    _loading = true;
-    _results = [];
-    var result = await BooksApi().fetchBooks(_searchString);
-    _loading = false;
-    if (result.result == Result.SUCCESS) {
-      setState(() {
-        _results = result.data;
-      });
-    } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(Localization.of(context).fetchBooksFailed),
-      ));
-    }
-  }
-
   Widget _buildList() {
-    if (_loading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (_results == null) {
-      return Container();
-    }
-    if (_results.length == 0) return Center(child: Text(Localization.of(context).noResults));
-
-    return ListView.builder(
-      itemBuilder: _buildItems,
-      itemCount: _results.length,
+    if (_searchString.length < 5) return Container();
+    var query = """
+     query {
+      searchBook(term: \"$_searchString\") {
+        id
+        volumeInfo {
+          title
+          authors
+          publisher
+          description
+          industryIdentifiers {
+            type
+            identifier
+          }
+          pageCount
+          imageLinks {
+            smallThumbnail
+          }
+          language
+        }
+        saleInfo {
+          listPrice {
+            amount
+            currencyCode
+          }
+        }
+      }
+     }
+    """
+        .replaceAll('\n', ' ');
+    return Query(
+      query,
+      pollInterval: 5,
+      builder: ({
+        bool loading,
+        var data,
+        Exception error,
+      }) {
+        if (error != null) {
+          return Text(error.toString());
+        }
+        if (loading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        List books = data['searchBook'];
+        _results.clear();
+        for (var book in books) {
+          _results.add(BookSchemeGraphQL.fromMap(book));
+        }
+        print(_results.length);
+        return ListView.builder(
+          itemBuilder: _buildItems,
+          itemCount: _results.length,
+        );
+      },
     );
   }
 
@@ -94,15 +117,21 @@ class _SearchBookPageState extends State<SearchBookPage> {
     return Column(
       children: <Widget>[
         ListTile(
-            leading: book.thumbnailPath != null
-                ? CircleAvatar(
-                    backgroundImage: NetworkImage(book.thumbnailPath))
-                : Image.asset('assets/book_icon.png', width: 40.0,),
-            title: Text(_results[index].title),
-            trailing: IconButton(icon: Icon(Icons.add), onPressed: () {
-              Navigator.of(context).pop(book);
-            }),
-            subtitle: Text(_results[index].subTitle)),
+          leading: book.volumeInfo.imageLinks.smallThumbnail != null
+              ? CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(book.volumeInfo.imageLinks.smallThumbnail))
+              : Image.asset(
+                  'assets/book_icon.png',
+                  width: 40.0,
+                ),
+          title: Text(_results[index].volumeInfo.title),
+          trailing: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).pop(book);
+              }),
+        ),
         Divider(),
       ],
     );
