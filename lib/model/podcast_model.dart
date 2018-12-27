@@ -1,8 +1,5 @@
 
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/data/api/backend_response.dart';
-import 'package:track_it/data/api/podcasts_api.dart';
-import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/data/podcasts/podcast_database.dart';
 import 'package:track_it/data/podcasts/podcast_episode.dart';
@@ -11,23 +8,11 @@ import 'package:track_it/data/timeseries_minutes.dart';
 mixin PodcastModel on Model {
   bool podcastsLoading = false;
   PodcastDatabase _database = PodcastDatabase();
-  PodcastsApi _api = PodcastsApi();
   List<Podcast> podcasts = [];
 
-  List<PodcastScheme> searchResults = [];
 
-  void searchPodcasts(String value) async {
-    podcastsLoading = true;
-    notifyListeners();
-    var response = await _api.searchPodcasts(value);
-    if (response.result == Result.SUCCESS) {
-      searchResults = response.data;
-      for(var res in searchResults) {
-        res.added = await _database.podcastIsAdded(res.podcastId);
-      }
-    }
-    podcastsLoading = false;
-    notifyListeners();
+  Future<bool> podcastIsAdded(var podcastId) async {
+    return await _database.podcastIsAdded(podcastId);
   }
 
   Future fetchPodcasts() async {
@@ -39,22 +24,11 @@ mixin PodcastModel on Model {
   }
 
   Future addPodcast(Podcast podcast) async {
-    var schemeToAdd = searchResults.firstWhere((scheme) => scheme.podcastId == podcast.id);
-    schemeToAdd.loadingAdd = true;
-    notifyListeners();
-    var response = await _api.getEpisodes(podcast.id);
-    if (response.result == Result.SUCCESS) {
-      var episodes = response.data;
-      await _database.insertPodcast(podcast);
-      for(var scheme in episodes) {
-        var episode = PodcastEpisode.fromScheme(scheme);
+    await _database.insertPodcast(podcast);
+    for(var episode in podcast.episodes) {
         await _database.insertEpisode(episode);
-        podcast.episodes.add(episode);
-      }
-      podcasts.add(podcast);
-      schemeToAdd.added = true;
     }
-    schemeToAdd.loadingAdd = false;
+    podcasts.add(podcast);
     notifyListeners();
   }
 
@@ -81,25 +55,5 @@ mixin PodcastModel on Model {
     await _database.deletePodcast(id);
     podcasts.removeWhere((p) => p.id == id);
     notifyListeners();
-  }
-
-
-  Future updateEpisodes() async {
-    await fetchPodcasts();
-    for(var podcast in podcasts) {
-      var response = await _api.getEpisodes(podcast.id);
-      if (response.result == Result.SUCCESS) {
-        var episodes = response.data;
-        for(var scheme in episodes) {
-          if (! await _database.hasEpisode(scheme.id)) {
-            var episode = PodcastEpisode.fromScheme(scheme);
-            _database.insertEpisode(episode);
-            podcast.episodes.insert(0, episode);
-            podcast.hasNewEpisode = true;
-          }
-        }
-
-      }
-    }
   }
 }

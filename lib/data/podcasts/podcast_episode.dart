@@ -3,11 +3,11 @@ import 'package:track_it/data/api/schemes/episode_scheme.dart';
 
 final String tableEpisode = 'episodes';
 final String _columnId = 'id';
-final String columnPodcastId = 'podcastId';
+final String columnPodcastId = 'podcast_id';
 final String columnEpisodeTitle = 'title';
 final String columnEpisodeDescription = 'description';
-final String columnEpisodeLength = 'length';
-final String columnPublishDate = 'publishDate';
+final String columnEpisodeLength = 'duration';
+final String columnPublishDate = 'pubdate';
 final String columnListened = 'listened';
 final String columnListenedAt = 'listenedAt';
 
@@ -47,12 +47,22 @@ class PodcastEpisode {
   }
 
   PodcastEpisode.fromMap(Map<String, dynamic> map) {
+    if (map[_columnId] is String) {
+      map[_columnId] = int.parse(map[_columnId]);
+    }
     id = map[_columnId];
     title = map[columnEpisodeTitle];
     description = map[columnEpisodeDescription];
+    if (map[columnPodcastId] is String) {
+      map[columnPodcastId] = int.parse(map[columnPodcastId]);
+    }
     podcastId = map[columnPodcastId];
     length = map[columnEpisodeLength];
-    publishedAt = DateTime.fromMillisecondsSinceEpoch(map[columnPublishDate]);
+    if (map[columnPublishDate] is String) {
+      publishedAt = DateTime.parse(map[columnPublishDate]);
+    } else {
+      publishedAt = DateTime.fromMillisecondsSinceEpoch(map[columnPublishDate]);
+    }
     listened = map[columnListened] == 1;
     listenedAt = map[columnListenedAt] == null ? null : DateTime.fromMillisecondsSinceEpoch(map[columnListenedAt]);
   }

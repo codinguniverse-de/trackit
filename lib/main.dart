@@ -187,6 +187,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateEpisodes() {
-    model.updateEpisodes();
+    // TODO: model.updateEpisodes();
   }
 }

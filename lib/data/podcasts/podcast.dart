@@ -1,14 +1,13 @@
 
-import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast_episode.dart';
 
 final String tablePodcast = 'podcasts';
 final String columnId = 'id';
-final String columnName = 'name';
+final String columnName = 'title';
 final String columnDescription = 'description';
-final String columnPodcastImage = 'imageUrl';
+final String columnPodcastImage = 'imgURL';
 final String columnLastUpdate = 'lastpub';
-final String columnThumbUrl = 'thumburl';
+final String columnThumbUrl = 'thumbImageURL';
 
 
 class Podcast {
@@ -39,21 +38,26 @@ class Podcast {
   }
 
   Podcast.fromMap(Map<String, dynamic> map) {
+    if (map[columnId] is String) {
+      map[columnId] = int.parse(map[columnId]);
+    }
     id = map[columnId];
     name = map[columnName];
-    lastpub = DateTime.fromMillisecondsSinceEpoch(map[columnLastUpdate]);
+    if (map[columnLastUpdate] is String) {
+      lastpub = DateTime.parse(map[columnLastUpdate]);
+    } else {
+      lastpub = DateTime.fromMillisecondsSinceEpoch(map[columnLastUpdate]);
+    }
     thumbUrl = map[columnThumbUrl];
     description = map[columnDescription];
     imageUrl = map[columnPodcastImage];
+    if (map["episodes"] != null) {
+      episodes = List();
+      for (var episode in map["episodes"]) {
+        episodes.add(PodcastEpisode.fromMap(episode));
+      }
+    }
   }
 
-  Podcast.fromScheme(PodcastScheme scheme) {
-    id = scheme.podcastId;
-    name = scheme.title;
-    lastpub = scheme.lastPub;
-    thumbUrl = scheme.thumbUrl;
-    description = scheme.description;
-    imageUrl = scheme.imageUrl;
-  }
 
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/util/localization.dart';
 
 class PodcastDetailPage extends StatelessWidget {
-  final PodcastScheme podcast;
+  final Map podcast;
 
   PodcastDetailPage(this.podcast);
 
@@ -20,7 +19,7 @@ class PodcastDetailPage extends StatelessWidget {
                 ? CircularProgressIndicator()
                 : Icon(Icons.add),
             onPressed: () async {
-              var newPodcast = Podcast.fromScheme(podcast);
+              var newPodcast = Podcast.fromMap(podcast);
               await model.addPodcast(newPodcast);
               showSnackbar(context);
             },
@@ -36,7 +35,7 @@ class PodcastDetailPage extends StatelessWidget {
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     background:
-                        Image.network(podcast.imageUrl, fit: BoxFit.cover),
+                        Image.network(podcast["imgURL"], fit: BoxFit.cover),
                   ),
                 ),
               ];
@@ -47,21 +46,21 @@ class PodcastDetailPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    podcast.title,
+                    podcast["title"],
                     style: Theme.of(context).textTheme.title,
                   ),
                   SizedBox(
                     height: 12.0,
                   ),
                   Text(
-                    podcast.subtitle,
+                    podcast["subtitle"],
                     style: Theme.of(context).textTheme.subhead,
                   ),
                   SizedBox(
                     height: 12.0,
                   ),
                   Text(
-                    podcast.description,
+                    podcast["description"],
                     style: Theme.of(context).textTheme.body1,
                   ),
                 ],

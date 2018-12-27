@@ -103,7 +103,6 @@ class _SearchBookPageState extends State<SearchBookPage> {
         for (var book in books) {
           _results.add(BookSchemeGraphQL.fromMap(book));
         }
-        print(_results.length);
         return ListView.builder(
           itemBuilder: _buildItems,
           itemCount: _results.length,

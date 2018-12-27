@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:track_it/data/api/schemes/podcast_scheme.dart';
 import 'package:track_it/data/podcasts/podcast.dart';
 import 'package:track_it/model/main_model.dart';
 import 'package:track_it/pages/podcasts/podcast_detail_page.dart';
@@ -16,6 +16,8 @@ class AddPodcastPage extends StatefulWidget {
 class _AddPodcastPageState extends State<AddPodcastPage> {
   String _searchTerm = '';
   MainModel _model;
+  List _results = List();
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
@@ -33,22 +35,17 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                          child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _searchTerm = value;
-                          });
-                        },
-                        onSubmitted: (_) {
-                          submitSearch();
-                        },
-                      )),
-                      IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: () async {
-                          submitSearch();
-                        },
-                      )
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: Localization.of(context).startTyping,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _searchTerm = value;
+                            });
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -65,25 +62,59 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
   }
 
   Widget buildList(MainModel model) {
-    if (_model.podcastsLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
+    if (_searchTerm.length < 8) {
+      return Container();
     }
+    var query = """
+      query {
+        searchPodcast(term: \"$_searchTerm\") {
+          id
+          title
+          imgURL
+          thumbImageURL
+          language
+          lastpoll
+          lastpub
+          description
+          subtitle
+          episodes {
+            id
+            title
+            podcast_id
+            imgURL
+            pubdate
+            duration
+            description
+          }
+        }
+      }
+    """
+        .replaceAll("\n", " ");
 
     return Expanded(
-        child: ListView.builder(
-      itemBuilder: _buildItem,
-      itemCount: model.searchResults.length,
+        child: Query(
+      query,
+      pollInterval: 5,
+      builder: ({bool loading, var data, Exception error}) {
+        if (error != null) {
+          return Text(error.toString());
+        }
+        if (loading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        _results = data['searchPodcast'];
+        return ListView.builder(
+          itemBuilder: _buildItem,
+          itemCount: _results.length,
+        );
+      },
     ));
   }
 
-  void submitSearch() {
-    _model.searchPodcasts(_searchTerm);
-  }
-
   Widget _buildItem(BuildContext context, int index) {
-    var podcast = _model.searchResults[index];
+    var podcast = _results[index];
     return Column(
       children: <Widget>[
         ListTile(
@@ -93,10 +124,11 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30.0),
-              image: DecorationImage(image: NetworkImage(podcast.thumbUrl)),
+              image: DecorationImage(
+                  image: NetworkImage(podcast["thumbImageURL"])),
             ),
           ),
-          title: Text(podcast.title),
+          title: Text(podcast["title"]),
           trailing: buildAddButton(podcast, context),
           onTap: () => onItemTap(podcast),
         ),
@@ -105,33 +137,26 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
     );
   }
 
-  Widget buildAddButton(PodcastScheme podcast, BuildContext context) {
-    if (podcast.loadingAdd) {
+  Widget buildAddButton(Map podcast, BuildContext context) {
+    if (podcast["loadingAdd"] != null && podcast["loadingAdd"]) {
       return CircularProgressIndicator();
     }
 
-    return podcast.added
-            ? IconButton(
-                icon: Icon(
-                  Icons.check,
-                  color: Theme.of(context).accentColor,
-                ),
-                onPressed: () {})
-            : IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
-                  onItemAdd(podcast);
-                },
-              );
+    return IconButton(
+      icon: Icon(Icons.add),
+      onPressed: () {
+        onItemAdd(podcast);
+      },
+    );
   }
 
-  void onItemTap(PodcastScheme podcast) {
+  void onItemTap(Map podcast) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => PodcastDetailPage(podcast)));
   }
 
-  void onItemAdd(PodcastScheme scheme) {
-    var podcast = Podcast.fromScheme(scheme);
+  void onItemAdd(Map scheme) {
+    var podcast = Podcast.fromMap(scheme);
     _model.addPodcast(podcast);
   }
 }
