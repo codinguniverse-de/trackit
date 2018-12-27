@@ -92,25 +92,26 @@ class _AddPodcastPageState extends State<AddPodcastPage> {
         .replaceAll("\n", " ");
 
     return Expanded(
-        child: Query(
-      query,
-      pollInterval: 5,
-      builder: ({bool loading, var data, Exception error}) {
-        if (error != null) {
-          return Text(error.toString());
-        }
-        if (loading) {
-          return Center(
-            child: CircularProgressIndicator(),
+      child: Query(
+        query,
+        pollInterval: 5,
+        builder: ({bool loading, var data, Exception error}) {
+          if (error != null) {
+            return Text(error.toString());
+          }
+          if (loading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          _results = data['searchPodcast'];
+          return ListView.builder(
+            itemBuilder: _buildItem,
+            itemCount: _results.length,
           );
-        }
-        _results = data['searchPodcast'];
-        return ListView.builder(
-          itemBuilder: _buildItem,
-          itemCount: _results.length,
-        );
-      },
-    ));
+        },
+      ),
+    );
   }
 
   Widget _buildItem(BuildContext context, int index) {
