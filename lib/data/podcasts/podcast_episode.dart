@@ -1,5 +1,4 @@
 
-import 'package:track_it/data/api/schemes/episode_scheme.dart';
 
 final String tableEpisode = 'episodes';
 final String _columnId = 'id';
@@ -65,16 +64,5 @@ class PodcastEpisode {
     }
     listened = map[columnListened] == 1;
     listenedAt = map[columnListenedAt] == null ? null : DateTime.fromMillisecondsSinceEpoch(map[columnListenedAt]);
-  }
-
-  PodcastEpisode.fromScheme(EpisodeScheme scheme) {
-    id = scheme.id;
-    title = scheme.title;
-    description = scheme.description;
-    podcastId = scheme.podcastId;
-    length = scheme.length;
-    publishedAt = scheme.pubDate;
-    listened = false;
-    listenedAt = null;
   }
 }
